@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USAvionix — CEO Message</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── CC Toggle (top-right, outside phone) ── */
+  .cc-toggle {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    z-index: 100;
+    user-select: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .cc-toggle:hover { color: #999; }
+  .cc-toggle.active { color: #fff; }
+  .cc-toggle svg { width: 18px; height: 18px; }
+
+  /* ── iPhone silhouette ── */
+  .phone {
+    width: 375px;
+    height: 812px;
+    border: 2px solid #333;
+    border-radius: 44px;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* Notch */
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 28px;
+    background: #000;
+    border-radius: 0 0 18px 18px;
+    border-bottom: 1px solid #222;
+    border-left: 1px solid #222;
+    border-right: 1px solid #222;
+    z-index: 10;
+  }
+
+  /* Status bar time */
+  .phone::after {
+    content: '9:41';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    z-index: 11;
+  }
+
+  /* ── Screen content ── */
+  .screen {
+    width: 100%;
+    height: 100%;
+    padding: 52px 20px 20px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .screen::-webkit-scrollbar { display: none; }
+
+  /* ── Placeholder blocks (gray rectangles for fake content) ── */
+  .placeholder-bar {
+    background: #1a1a1a;
+    border-radius: 4px;
+    width: 100%;
+  }
+  .placeholder-header {
+    height: 44px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+  }
+  .placeholder-header::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #333;
+    margin-right: 12px;
+  }
+  .placeholder-header::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: #333;
+  }
+
+  .placeholder-block {
+    height: 80px;
+    margin-bottom: 12px;
+  }
+  .placeholder-block.tall { height: 120px; }
+  .placeholder-block.short { height: 48px; }
+
+  .placeholder-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .placeholder-line {
+    height: 2px;
+    background: #1a1a1a;
+    border-radius: 1px;
+  }
+  .placeholder-line.w80 { width: 80%; }
+  .placeholder-line.w60 { width: 60%; }
+  .placeholder-line.w90 { width: 90%; }
+  .placeholder-line.w40 { width: 40%; }
+
+  /* ── Audio module ── */
+  .audio-module {
+    margin: 20px 0;
+    padding: 20px 16px;
+    border: 1px solid #222;
+    border-radius: 12px;
+    background: #0a0a0a;
+  }
+
+  .module-title {
+    font-size: 11px;
+    font-weight: 500;
+    color: #555;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .module-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  /* Headshot */
+  .headshot-wrap {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+  .headshot {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s;
+  }
+  .headshot-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    transition: border-color 0.4s, opacity 0.4s;
+    opacity: 0;
+  }
+  .playing .headshot-wrap::after {
+    border-color: #444;
+    opacity: 1;
+    animation: pulse-ring 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-ring {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.06); }
+  }
+
+  .module-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #e0e0e0;
+    line-height: 1.3;
+  }
+  .module-role {
+    font-size: 12px;
+    color: #555;
+    margin-top: 2px;
+  }
+
+  /* ── FFT Visualizer ── */
+  .fft-container {
+    position: relative;
+    height: 48px;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  #fft-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* ── Progress bar ── */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .progress-track {
+    flex: 1;
+    height: 2px;
+    background: #1a1a1a;
+    border-radius: 1px;
+    cursor: pointer;
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #fff;
+    border-radius: 1px;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+  .time-label {
+    font-size: 10px;
+    color: #444;
+    font-variant-numeric: tabular-nums;
+    min-width: 32px;
+  }
+  .time-label.right { text-align: right; }
+
+  /* ── Play button ── */
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+  .play-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .play-btn:hover {
+    border-color: #555;
+    background: #111;
+  }
+  .play-btn svg {
+    width: 14px;
+    height: 14px;
+    fill: #ccc;
+  }
+  .play-btn .pause-icon { display: none; }
+  .playing .play-btn .play-icon { display: none; }
+  .playing .play-btn .pause-icon { display: block; }
+
+  /* ── Transcript ── */
+  .transcript {
+    max-height: 120px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+  }
+  .transcript::-webkit-scrollbar { display: none; }
+  .transcript.hidden {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  .transcript-line {
+    font-size: 12px;
+    line-height: 1.6;
+    color: #333;
+    padding: 4px 0;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  .transcript-line:hover { color: #666; }
+  .transcript-line.active { color: #ccc; }
+  .transcript-line.past { color: #555; }
+
+  /* ── Responsive scaling ── */
+  @media (max-height: 900px) {
+    .phone {
+      height: 720px;
+      width: 333px;
+    }
+  }
+  @media (max-height: 780px) {
+    .phone {
+      height: 640px;
+      width: 296px;
+      border-radius: 36px;
+    }
+    .phone::before { width: 120px; height: 24px; border-radius: 0 0 14px 14px; }
+  }
+  @media (max-width: 420px) {
+    .phone {
+      width: calc(100vw - 32px);
+      height: calc(100vh - 80px);
+      border-radius: 0;
+      border: none;
+    }
+    .phone::before { display: none; }
+    .phone::after { display: none; }
+    .cc-toggle { top: 8px; right: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CC Toggle -->
+<div class="cc-toggle active" id="ccToggle" onclick="toggleCC()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+    <circle cx="12" cy="12" r="3"/>
+  </svg>
+  <span id="ccLabel">CC ON</span>
+</div>
+
+<!-- iPhone -->
+<div class="phone">
+  <div class="screen">
+
+    <!-- Fake header -->
+    <div class="placeholder-bar placeholder-header"></div>
+
+    <!-- Fake content above -->
+    <div class="placeholder-bar placeholder-block"></div>
+    <div class="placeholder-lines">
+      <div class="placeholder-line w90"></div>
+      <div class="placeholder-line w80"></div>
+      <div class="placeholder-line w60"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- REAL AUDIO MODULE                       -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="audio-module" id="audioModule">
+      <div class="module-title">From Christian Sanz, Founder + CEO</div>
+
+      <div class="module-header">
+        <div class="headshot-wrap">
+          <img class="headshot" src="CS_headshot_400x400.png" alt="Christian Sanz">
+        </div>
+        <div>
+          <div class="module-name">Christian Sanz</div>
+          <div class="module-role">Founder &amp; CEO, USAvionix</div>
+        </div>
+      </div>
+
+      <!-- FFT visualization canvas -->
+      <div class="fft-container" id="fftContainer">
+        <canvas id="fft-canvas"></canvas>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress-row">
+        <span class="time-label" id="timeCurrent">0:00</span>
+        <div class="progress-track" id="progressTrack" onclick="scrub(event)">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span class="time-label right" id="timeTotal">4:12</span>
+      </div>
+
+      <!-- Play / Pause -->
+      <div class="controls">
+        <button class="play-btn" id="playBtn" onclick="togglePlay()">
+          <svg class="play-icon" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+          <svg class="pause-icon" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Transcript (closed captions) -->
+      <div class="transcript" id="transcript"></div>
+    </div>
+    <!-- ═══════════════════════════════════════ -->
+
+    <!-- Fake content below -->
+    <div class="placeholder-lines">
+      <div class="placeholder-line w80"></div>
+      <div class="placeholder-line w90"></div>
+      <div class="placeholder-line w40"></div>
+    </div>
+    <div class="placeholder-bar placeholder-block short"></div>
+    <div class="placeholder-bar placeholder-block tall"></div>
+    <div class="placeholder-lines">
+      <div class="placeholder-line w60"></div>
+      <div class="placeholder-line w80"></div>
+    </div>
+    <div class="placeholder-bar placeholder-block"></div>
+
+  </div>
+</div>
+
+<script>
+// ─── Timestamped transcript data ───
+// Each segment: start/end in seconds, cleaned text
+const TRANSCRIPT = [
+  { start: 0.0,  end: 5.5,  text: "Hi, I'm Christian Sanz, Founder and CEO of USAvionix." },
+  { start: 5.5,  end: 12.0, text: "For nearly two decades, I've been building companies in core technologies around drones, robotics, and 3D sensing." },
+  { start: 12.0, end: 18.0, text: "After exiting my previous company, I started thinking about a much bigger question:" },
+  { start: 18.0, end: 25.0, text: "What would an aerial system look like if it were designed from the beginning to operate autonomously?" },
+  { start: 25.0, end: 30.0, text: "That question is what led to USAvionix." },
+  { start: 30.0, end: 40.0, text: "Over the past year, we've assembled a team of engineers, researchers, and builders working across autonomy, AI, aerospace, and robotics to bring this vision to life." },
+  { start: 40.0, end: 48.0, text: "Over the coming months, we're excited to introduce you to the people behind it." },
+  { start: 48.0, end: 55.0, text: "At USAvionix, we're building what we call sentient drones for good." },
+  { start: 55.0, end: 62.0, text: "Most drones today are still tools that humans fly. They collect data, stream video." },
+  { start: 62.0, end: 70.0, text: "A person has to watch the feed, interpret what is happening, and decide what to do next." },
+  { start: 70.0, end: 78.0, text: "That workflow simply does not match the speed and scale of the challenges we face today." },
+  { start: 78.0, end: 84.0, text: "Wildfires spread in minutes. Critical infrastructure spans hundreds of miles." },
+  { start: 84.0, end: 92.0, text: "Security threats can move faster than a human operator can analyze a video feed. A person watching a screen cannot keep up with that scale." },
+  { start: 92.0, end: 98.0, text: "We believe the system itself needs to take on the responsibility." },
+  { start: 98.0, end: 106.0, text: "What has changed in the last few years is the maturity of AI. We can now use AI not just to analyze data, but to design the system." },
+  { start: 106.0, end: 115.0, text: "Integrate the complex stacks, and assist in operating them in real time." },
+  { start: 115.0, end: 125.0, text: "At USAvionix, AI is embedded across the entire platform. It helps define missions, coordinate the aircraft, interpret sensor data, and continuously improve how the system operates." },
+  { start: 125.0, end: 132.0, text: "That shift is what makes true autonomy possible now." },
+  { start: 132.0, end: 140.0, text: "To make that possible, we're vertically integrating the entire system \u2014 the aircraft, the sensors, the onboard AI, the ground software, and the intelligence platform that connects everything together." },
+  { start: 140.0, end: 150.0, text: "The scale of what we're building is dramatically different than traditional systems. A human operator might analyze dozens of objects a minute." },
+  { start: 150.0, end: 160.0, text: "Our architecture is designed to perform thousands of detections every second \u2014 continuously identifying vehicles, people, anomalies, and changes across very large areas." },
+  { start: 160.0, end: 168.0, text: "That difference in scale changes what these systems can actually do." },
+  { start: 168.0, end: 176.0, text: "Instead of watching a single location, they can monitor entire regions continuously and detect risk far earlier." },
+  { start: 176.0, end: 186.0, text: "The aircraft itself is also built for a completely different performance envelope. Most drones today operate at roughly 30 to 40 kilometers per hour and they're very limited in how much data they can collect." },
+  { start: 186.0, end: 196.0, text: "Our systems are being designed to operate at 400 to 500 kilometers per hour, allowing a single aircraft to cover extremely large operational areas." },
+  { start: 196.0, end: 205.0, text: "Combined with advanced optical sensing and onboard intelligence, this creates a new category of aerial awareness." },
+  { start: 205.0, end: 212.0, text: "The applications are incredibly important. Protecting critical infrastructure that our societies depend on every single day." },
+  { start: 212.0, end: 218.0, text: "Supporting public safety teams and first responders. Helping firefighters detect and track wildfires earlier." },
+  { start: 218.0, end: 225.0, text: "Assisting coast guards in locating people cast across vast oceans." },
+  { start: 225.0, end: 232.0, text: "And supporting national security missions where speed, awareness, and autonomy matter." },
+  { start: 232.0, end: 240.0, text: "As the world becomes more complex and interconnected, the challenges we face are evolving just as quickly." },
+  { start: 240.0, end: 246.0, text: "We believe autonomous systems will become essential tools for keeping society safe, resilient, and prepared." },
+  { start: 246.0, end: 252.0, text: "Our goal is very simple: build intelligent aerial systems that can observe the world at scale, detect problems earlier, and help people respond faster." },
+  { start: 252.0, end: 256.0, text: "That's the mission behind USAvionix \u2014 and we're just getting started." }
+];
+
+// ─── Audio + Web Audio API setup ───
+const audio = new Audio('final-audio.mp3');
+audio.preload = 'auto';
+let audioCtx, analyser, source, dataArray;
+let isPlaying = false;
+let ccVisible = true;
+
+// Initialize Web Audio API (on first user interaction)
+function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  // AnalyserNode for FFT data
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 128;           // 64 frequency bins
+  analyser.smoothingTimeConstant = 0.8;
+  dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+  // Connect audio element → analyser → speakers
+  source = audioCtx.createMediaElementSource(audio);
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
+}
+
+// ─── Play / Pause ───
+function togglePlay() {
+  initAudio();
+  if (isPlaying) {
+    audio.pause();
+    isPlaying = false;
+    document.getElementById('audioModule').classList.remove('playing');
+  } else {
+    audio.play();
+    isPlaying = true;
+    document.getElementById('audioModule').classList.add('playing');
+    renderFFT();
+  }
+}
+
+// ─── CC Toggle ───
+function toggleCC() {
+  ccVisible = !ccVisible;
+  const el = document.getElementById('transcript');
+  const toggle = document.getElementById('ccToggle');
+  const label = document.getElementById('ccLabel');
+  if (ccVisible) {
+    el.classList.remove('hidden');
+    toggle.classList.add('active');
+    label.textContent = 'CC ON';
+  } else {
+    el.classList.add('hidden');
+    toggle.classList.remove('active');
+    label.textContent = 'CC OFF';
+  }
+}
+
+// ─── FFT rendering (canvas) ───
+const canvas = document.getElementById('fft-canvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  const container = document.getElementById('fftContainer');
+  canvas.width = container.offsetWidth * window.devicePixelRatio;
+  canvas.height = container.offsetHeight * window.devicePixelRatio;
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function renderFFT() {
+  if (!isPlaying) {
+    // Draw idle state — flat low bars
+    drawBars(null);
+    return;
+  }
+  requestAnimationFrame(renderFFT);
+  analyser.getByteFrequencyData(dataArray);
+  drawBars(dataArray);
+}
+
+function drawBars(data) {
+  const w = canvas.width / window.devicePixelRatio;
+  const h = canvas.height / window.devicePixelRatio;
+  ctx.clearRect(0, 0, w, h);
+
+  const barCount = 48;
+  const gap = 2;
+  const barWidth = (w - (barCount - 1) * gap) / barCount;
+  const minHeight = 2;
+
+  for (let i = 0; i < barCount; i++) {
+    let value;
+    if (data) {
+      // Map bar index to frequency bin (skip very low freqs)
+      const binIndex = Math.floor((i / barCount) * (data.length * 0.8)) + 2;
+      value = data[Math.min(binIndex, data.length - 1)] / 255;
+    } else {
+      value = 0.05;
+    }
+
+    const barHeight = Math.max(minHeight, value * h * 0.85);
+    const x = i * (barWidth + gap);
+    const y = (h - barHeight) / 2;
+
+    // White/gray bars with intensity-based opacity
+    const alpha = 0.15 + value * 0.65;
+    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+    ctx.fillRect(x, y, barWidth, barHeight);
+  }
+}
+
+// Draw idle bars on load
+drawBars(null);
+
+// ─── Scrub (click progress bar or FFT) ───
+function scrub(e) {
+  initAudio();
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = pct * audio.duration;
+  if (!isPlaying) togglePlay();
+}
+
+document.getElementById('fftContainer').addEventListener('click', scrub);
+
+// ─── Progress + time update ───
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2, '0')}`;
+}
+
+audio.addEventListener('timeupdate', () => {
+  const pct = (audio.currentTime / audio.duration) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('timeCurrent').textContent = formatTime(audio.currentTime);
+  updateTranscript(audio.currentTime);
+});
+
+audio.addEventListener('loadedmetadata', () => {
+  document.getElementById('timeTotal').textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener('ended', () => {
+  isPlaying = false;
+  document.getElementById('audioModule').classList.remove('playing');
+  drawBars(null);
+});
+
+// ─── Transcript rendering + syncing ───
+const transcriptEl = document.getElementById('transcript');
+
+// Build transcript DOM
+TRANSCRIPT.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'transcript-line';
+  div.textContent = seg.text;
+  div.dataset.index = i;
+  // Click to seek
+  div.addEventListener('click', () => {
+    initAudio();
+    audio.currentTime = seg.start;
+    if (!isPlaying) togglePlay();
+  });
+  transcriptEl.appendChild(div);
+});
+
+function updateTranscript(time) {
+  const lines = transcriptEl.querySelectorAll('.transcript-line');
+  let activeIndex = -1;
+
+  TRANSCRIPT.forEach((seg, i) => {
+    if (time >= seg.start && time < seg.end) activeIndex = i;
+  });
+
+  lines.forEach((line, i) => {
+    line.classList.remove('active', 'past');
+    if (i === activeIndex) {
+      line.classList.add('active');
+      // Auto-scroll to keep active line visible
+      const container = transcriptEl;
+      const lineTop = line.offsetTop - container.offsetTop;
+      const scrollTarget = lineTop - container.clientHeight / 3;
+      container.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+    } else if (i < activeIndex) {
+      line.classList.add('past');
+    }
+  });
+}
+</script>
+</body>
+</html>
