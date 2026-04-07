@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>USAvionix — CEO Audio Module</title>
+<title>USAvionix — CEO Message</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -12,25 +12,15 @@
     background: #000;
     font-family: 'Inter', sans-serif;
     color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
+    overflow: hidden;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
   }
 
-  /* ── Page layout ── */
-  .page-header {
-    text-align: center;
-    padding: 48px 24px 12px;
-  }
-  .page-title {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #555;
-  }
-
-  /* CC toggle */
+  /* ── CC toggle ── */
   .cc-toggle {
     position: fixed;
     top: 20px;
@@ -51,50 +41,16 @@
   .cc-toggle.active { color: #fff; }
   .cc-toggle svg { width: 16px; height: 16px; }
 
-  /* ── Three-up grid ── */
-  .variations {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 24px 32px 64px;
-    align-items: start;
-  }
-
-  @media (max-width: 900px) {
-    .variations {
-      grid-template-columns: 1fr;
-      max-width: 420px;
-      gap: 48px;
-      padding: 24px 20px 64px;
-    }
-  }
-
-  .variation {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .var-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #444;
-    margin-bottom: 16px;
-  }
-
-  /* ── iPhone shell ── */
+  /* ── iPhone silhouette ── */
   .phone {
-    width: 100%;
-    max-width: 340px;
-    aspect-ratio: 9 / 19.5;
-    border: 1.5px solid #333;
-    border-radius: 40px;
+    width: 375px;
+    height: 812px;
+    border: 2px solid #333;
+    border-radius: 44px;
     background: #000;
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
   }
   .phone::before {
     content: '';
@@ -102,10 +58,10 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 120px;
-    height: 24px;
+    width: 150px;
+    height: 28px;
     background: #000;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0 0 18px 18px;
     border-bottom: 1px solid #282828;
     border-left: 1px solid #282828;
     border-right: 1px solid #282828;
@@ -114,10 +70,10 @@
   .phone::after {
     content: '9:41';
     position: absolute;
-    top: 4px;
+    top: 6px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     color: #fff;
     z-index: 11;
@@ -126,55 +82,62 @@
   .screen {
     width: 100%;
     height: 100%;
-    padding: 44px 16px 16px;
+    padding: 52px 20px 20px;
     overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
   .screen::-webkit-scrollbar { display: none; }
 
-  /* ── Placeholder blocks (bumped gray) ── */
+  /* ── Placeholder blocks ── */
   .ph { background: #1c1c1c; border-radius: 4px; width: 100%; }
-  .ph-header { height: 36px; margin-bottom: 12px; }
-  .ph-block { height: 64px; margin-bottom: 10px; }
-  .ph-block.tall { height: 96px; }
-  .ph-block.short { height: 36px; }
-  .ph-lines { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .ph-header {
+    height: 44px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+  }
+  .ph-header::before { content: ''; display: block; width: 24px; height: 2px; background: #3a3a3a; margin-right: 12px; }
+  .ph-header::after { content: ''; display: block; width: 60px; height: 2px; background: #3a3a3a; }
+  .ph-block { height: 80px; margin-bottom: 12px; }
+  .ph-block.tall { height: 120px; }
+  .ph-block.short { height: 48px; }
+  .ph-lines { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
   .ph-line { height: 2px; background: #1c1c1c; border-radius: 1px; }
   .ph-line.w90 { width: 90%; }
   .ph-line.w80 { width: 80%; }
   .ph-line.w60 { width: 60%; }
   .ph-line.w40 { width: 40%; }
 
-  /* ══════════════════════════════════════════════
-     VARIATION A — "Signal"
-     Inline horizontal player. Headshot = play button.
-     FFT bars double as progress indicator.
-     CC: scrolling transcript list (classic approach)
-     ══════════════════════════════════════════════ */
-  .mod-a {
-    margin: 14px 0;
-    padding: 14px;
+  /* ── Audio module ── */
+  .audio-module {
+    margin: 20px 0;
+    padding: 16px;
     border: 1px solid #282828;
-    border-radius: 10px;
+    border-radius: 12px;
     background: #0c0c0c;
   }
-  .mod-a .mod-label {
+  .mod-label {
     font-size: 10px;
     font-weight: 500;
     color: #666;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
-  .mod-a .player-row {
+
+  /* Player row: headshot + FFT */
+  .player-row {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
   }
-  .mod-a .avatar-btn {
-    width: 44px;
-    height: 44px;
+
+  /* Headshot = play button */
+  .avatar-btn {
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     border: none;
     background: none;
@@ -183,14 +146,14 @@
     flex-shrink: 0;
     padding: 0;
   }
-  .mod-a .avatar-btn img {
-    width: 44px;
-    height: 44px;
+  .avatar-btn img {
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
     display: block;
   }
-  .mod-a .avatar-btn .av-overlay {
+  .avatar-btn .av-overlay {
     position: absolute;
     inset: 0;
     border-radius: 50%;
@@ -200,14 +163,15 @@
     justify-content: center;
     transition: background 0.2s;
   }
-  .mod-a .avatar-btn:hover .av-overlay { background: rgba(0,0,0,0.25); }
-  .mod-a .avatar-btn .av-overlay svg { width: 16px; height: 16px; fill: #fff; }
-  .mod-a .avatar-btn .ico-pause { display: none; }
-  .mod-a.playing .avatar-btn .ico-play { display: none; }
-  .mod-a.playing .avatar-btn .ico-pause { display: block; }
-  .mod-a.playing .avatar-btn .av-overlay { background: rgba(0,0,0,0.2); }
+  .avatar-btn:hover .av-overlay { background: rgba(0,0,0,0.25); }
+  .avatar-btn .av-overlay svg { width: 16px; height: 16px; fill: #fff; }
+  .avatar-btn .ico-pause { display: none; }
+  .playing .avatar-btn .ico-play { display: none; }
+  .playing .avatar-btn .ico-pause { display: block; }
+  .playing .avatar-btn .av-overlay { background: rgba(0,0,0,0.2); }
 
-  .mod-a .avatar-btn::after {
+  /* Pulse ring */
+  .avatar-btn::after {
     content: '';
     position: absolute;
     inset: -3px;
@@ -215,321 +179,82 @@
     border: 1px solid transparent;
     transition: all 0.4s;
   }
-  .mod-a.playing .avatar-btn::after {
+  .playing .avatar-btn::after {
     border-color: #444;
-    animation: pulse-a 2s ease-in-out infinite;
+    animation: pulse-ring 2s ease-in-out infinite;
   }
-  @keyframes pulse-a {
+  @keyframes pulse-ring {
     0%, 100% { opacity: 0.3; transform: scale(1); }
     50% { opacity: 0.6; transform: scale(1.05); }
   }
 
-  .mod-a .fft-progress {
+  /* FFT + progress combined */
+  .fft-progress {
     flex: 1;
-    height: 36px;
+    height: 40px;
     position: relative;
     cursor: pointer;
   }
-  .mod-a .fft-progress canvas {
+  .fft-progress canvas {
     width: 100%;
     height: 100%;
     display: block;
   }
 
-  .mod-a .meta-row {
+  /* Meta row */
+  .meta-row {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     margin-top: 8px;
   }
-  .mod-a .meta-name {
+  .meta-name {
     font-size: 11px;
     font-weight: 500;
     color: #777;
   }
-  .mod-a .meta-time {
+  .meta-time {
     font-size: 10px;
     color: #555;
     font-variant-numeric: tabular-nums;
   }
 
-  /* CC-A: scrolling transcript list */
-  .mod-a .transcript {
-    max-height: 80px;
+  /* Transcript */
+  .transcript {
+    max-height: 100px;
     overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
     margin-top: 10px;
     transition: max-height 0.4s, opacity 0.4s;
   }
-  .mod-a .transcript::-webkit-scrollbar { display: none; }
-  .mod-a .transcript.hidden { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; }
-  .mod-a .transcript-line {
-    font-size: 11px;
+  .transcript::-webkit-scrollbar { display: none; }
+  .transcript.hidden { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; }
+  .transcript-line {
+    font-size: 12px;
     line-height: 1.6;
     color: #3a3a3a;
     padding: 3px 0;
     cursor: pointer;
     transition: color 0.3s;
   }
-  .mod-a .transcript-line:hover { color: #888; }
-  .mod-a .transcript-line.active { color: #ccc; }
-  .mod-a .transcript-line.past { color: #666; }
+  .transcript-line:hover { color: #888; }
+  .transcript-line.active { color: #ccc; }
+  .transcript-line.past { color: #666; }
 
-
-  /* ══════════════════════════════════════════════
-     VARIATION B — "Pulse"
-     Centered card. No visualizer — clean podcast style.
-     Headshot pulses when playing. Progress bar + ticker CC.
-     ══════════════════════════════════════════════ */
-  .mod-b {
-    margin: 14px 0;
-    padding: 16px 14px;
-    border: 1px solid #282828;
-    border-radius: 10px;
-    background: #0c0c0c;
-    text-align: center;
+  /* ── Responsive ── */
+  @media (max-height: 900px) {
+    .phone { height: 720px; width: 333px; }
   }
-  .mod-b .mod-label {
-    font-size: 10px;
-    font-weight: 500;
-    color: #666;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
+  @media (max-height: 780px) {
+    .phone { height: 640px; width: 296px; border-radius: 36px; }
+    .phone::before { width: 120px; height: 24px; border-radius: 0 0 14px 14px; }
   }
-
-  /* Headshot with play overlay */
-  .mod-b .avatar-center {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 10px;
-    cursor: pointer;
-  }
-  .mod-b .avatar-center img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
-  }
-  .mod-b .avatar-center .av-overlay {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
-  }
-  .mod-b .avatar-center:hover .av-overlay { background: rgba(0,0,0,0.2); }
-  .mod-b .avatar-center .av-overlay svg { width: 18px; height: 18px; fill: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5)); }
-  .mod-b .avatar-center .ico-pause { display: none; }
-  .mod-b.playing .avatar-center .ico-play { display: none; }
-  .mod-b.playing .avatar-center .ico-pause { display: block; }
-
-  /* Pulse ring animation when playing */
-  .mod-b .avatar-center::after {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    border: 1.5px solid transparent;
-    transition: all 0.4s;
-  }
-  .mod-b.playing .avatar-center::after {
-    border-color: #555;
-    animation: pulse-b 2.2s ease-in-out infinite;
-  }
-  @keyframes pulse-b {
-    0%, 100% { opacity: 0.2; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(1.08); }
-  }
-
-  .mod-b .mod-name {
-    font-size: 13px;
-    font-weight: 500;
-    color: #ddd;
-    line-height: 1.4;
-  }
-  .mod-b .mod-role {
-    font-size: 10px;
-    color: #666;
-    margin-top: 3px;
-    line-height: 1.4;
-  }
-
-  /* Progress bar B */
-  .mod-b .prog-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .mod-b .prog-time {
-    font-size: 9px;
-    color: #555;
-    font-variant-numeric: tabular-nums;
-    min-width: 28px;
-  }
-  .mod-b .prog-time.right { text-align: right; }
-  .mod-b .prog-track {
-    flex: 1;
-    height: 2px;
-    background: #222;
-    border-radius: 1px;
-    cursor: pointer;
-    position: relative;
-  }
-  .mod-b .prog-fill {
-    height: 100%;
-    background: #fff;
-    border-radius: 1px;
-    width: 0%;
-    transition: width 0.1s linear;
-  }
-
-  /* CC-B: single-line ticker — shows only the active sentence */
-  .mod-b .cc-ticker {
-    margin-top: 10px;
-    min-height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.4s, max-height 0.4s;
-  }
-  .mod-b .cc-ticker.hidden { opacity: 0; max-height: 0; overflow: hidden; margin-top: 0; min-height: 0; }
-  .mod-b .cc-ticker-text {
-    font-size: 11px;
-    line-height: 1.55;
-    color: #888;
-    text-align: center;
-    transition: opacity 0.3s;
-    cursor: pointer;
-  }
-  .mod-b .cc-ticker-text:hover { color: #bbb; }
-  .mod-b .cc-ticker-text.empty { color: #444; font-style: italic; }
-
-
-  /* ══════════════════════════════════════════════
-     VARIATION C — "Wave"
-     Full-width waveform hero with playhead.
-     CC: floating overlay on top of waveform
-     ══════════════════════════════════════════════ */
-  .mod-c {
-    margin: 14px 0;
-    padding: 14px;
-    border: 1px solid #282828;
-    border-radius: 10px;
-    background: #0c0c0c;
-  }
-  .mod-c .top-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  .mod-c .top-row img {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  .mod-c .top-info {
-    flex: 1;
-    min-width: 0;
-  }
-  .mod-c .top-name {
-    font-size: 11px;
-    font-weight: 500;
-    color: #aaa;
-    line-height: 1.4;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .mod-c .top-label {
-    font-size: 9px;
-    color: #555;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    line-height: 1.4;
-    margin-top: 1px;
-  }
-  .mod-c .play-sm {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 1px solid #3a3a3a;
-    background: transparent;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: border-color 0.2s;
-    padding: 0;
-  }
-  .mod-c .play-sm:hover { border-color: #666; }
-  .mod-c .play-sm svg { width: 10px; height: 10px; fill: #aaa; }
-  .mod-c .play-sm .ico-pause { display: none; }
-  .mod-c.playing .play-sm .ico-play { display: none; }
-  .mod-c.playing .play-sm .ico-pause { display: block; }
-
-  /* Waveform hero with CC overlay */
-  .mod-c .wave-wrap {
-    position: relative;
-  }
-  .mod-c .wave-hero {
-    position: relative;
-    height: 56px;
-    cursor: pointer;
-  }
-  .mod-c .wave-hero canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  .mod-c .playhead {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: #fff;
-    left: 0%;
-    transition: left 0.1s linear;
-    pointer-events: none;
-  }
-
-  /* CC-C: floating overlay below waveform */
-  .mod-c .cc-overlay {
-    margin-top: 6px;
-    min-height: 20px;
-    transition: opacity 0.4s, max-height 0.4s;
-  }
-  .mod-c .cc-overlay.hidden { opacity: 0; max-height: 0; overflow: hidden; margin-top: 0; min-height: 0; }
-  .mod-c .cc-overlay-text {
-    font-size: 10px;
-    line-height: 1.5;
-    color: #999;
-    padding: 4px 6px;
-    background: #151515;
-    border-radius: 4px;
-    border-left: 2px solid #444;
-    transition: opacity 0.3s;
-  }
-  .mod-c .cc-overlay-text.empty { opacity: 0; }
-
-  .mod-c .time-row {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 6px;
-  }
-  .mod-c .time-row span {
-    font-size: 9px;
-    color: #555;
-    font-variant-numeric: tabular-nums;
+  @media (max-width: 420px) {
+    .phone { width: calc(100vw - 32px); height: calc(100vh - 80px); border-radius: 0; border: none; }
+    .phone::before { display: none; }
+    .phone::after { display: none; }
+    .cc-toggle { top: 8px; right: 12px; }
   }
 </style>
 </head>
@@ -544,406 +269,246 @@
   <span id="ccLabel">CC ON</span>
 </div>
 
-<div class="page-header">
-  <div class="page-title">CEO Audio Module — Design Variations</div>
-</div>
+<!-- iPhone -->
+<div class="phone">
+  <div class="screen">
 
-<div class="variations">
-
-  <!-- ═══ A — Signal ═══ -->
-  <div class="variation">
-    <div class="var-label">A — Signal</div>
-    <div class="phone">
-      <div class="screen">
-        <div class="ph ph-header"></div>
-        <div class="ph ph-block"></div>
-        <div class="ph-lines"><div class="ph-line w90"></div><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
-
-        <div class="mod-a" id="modA">
-          <div class="mod-label">Our Mission</div>
-          <div class="player-row">
-            <button class="avatar-btn" data-var="a">
-              <img src="CS_headshot_400x400.png" alt="CS">
-              <div class="av-overlay">
-                <svg class="ico-play" viewBox="0 0 24 24"><polygon points="8,4 20,12 8,20"/></svg>
-                <svg class="ico-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="3.5" height="16"/><rect x="14.5" y="4" width="3.5" height="16"/></svg>
-              </div>
-            </button>
-            <div class="fft-progress" id="fftA">
-              <canvas></canvas>
-            </div>
-          </div>
-          <div class="meta-row">
-            <span class="meta-name">Christian Sanz, Founder & CEO</span>
-            <span class="meta-time" data-time-a>0:00 / 4:11</span>
-          </div>
-          <div class="transcript" data-transcript="a"></div>
-        </div>
-
-        <div class="ph-lines"><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
-        <div class="ph ph-block short"></div>
-        <div class="ph ph-block tall"></div>
-        <div class="ph-lines"><div class="ph-line w60"></div><div class="ph-line w80"></div></div>
-      </div>
+    <div class="ph ph-header"></div>
+    <div class="ph ph-block"></div>
+    <div class="ph-lines">
+      <div class="ph-line w90"></div>
+      <div class="ph-line w80"></div>
+      <div class="ph-line w60"></div>
     </div>
-  </div>
 
-  <!-- ═══ B — Pulse ═══ -->
-  <div class="variation">
-    <div class="var-label">B — Pulse</div>
-    <div class="phone">
-      <div class="screen">
-        <div class="ph ph-header"></div>
-        <div class="ph ph-block"></div>
-        <div class="ph-lines"><div class="ph-line w90"></div><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
-
-        <div class="mod-b" id="modB">
-          <div class="mod-label">Our Mission</div>
-          <div class="avatar-center" data-var="b">
-            <img src="CS_headshot_400x400.png" alt="CS">
-            <div class="av-overlay">
-              <svg class="ico-play" viewBox="0 0 24 24"><polygon points="8,4 20,12 8,20"/></svg>
-              <svg class="ico-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="3.5" height="16"/><rect x="14.5" y="4" width="3.5" height="16"/></svg>
-            </div>
+    <!-- ═══ Audio Module ═══ -->
+    <div class="audio-module" id="audioModule">
+      <div class="mod-label">Our Mission</div>
+      <div class="player-row">
+        <button class="avatar-btn" id="playBtn">
+          <img src="CS_headshot_400x400.png" alt="Christian Sanz">
+          <div class="av-overlay">
+            <svg class="ico-play" viewBox="0 0 24 24"><polygon points="8,4 20,12 8,20"/></svg>
+            <svg class="ico-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="3.5" height="16"/><rect x="14.5" y="4" width="3.5" height="16"/></svg>
           </div>
-          <div class="mod-name">Christian Sanz</div>
-          <div class="mod-role">Founder & CEO</div>
-          <div class="prog-row">
-            <span class="prog-time" data-time-b-cur>0:00</span>
-            <div class="prog-track" data-scrub="b">
-              <div class="prog-fill" data-fill-b></div>
-            </div>
-            <span class="prog-time right" data-time-b-tot>4:11</span>
-          </div>
-          <div class="cc-ticker" data-cc="b">
-            <div class="cc-ticker-text empty">Press play to listen</div>
-          </div>
+        </button>
+        <div class="fft-progress" id="fftContainer">
+          <canvas id="fftCanvas"></canvas>
         </div>
-
-        <div class="ph-lines"><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
-        <div class="ph ph-block short"></div>
-        <div class="ph ph-block tall"></div>
-        <div class="ph-lines"><div class="ph-line w60"></div><div class="ph-line w80"></div></div>
       </div>
-    </div>
-  </div>
-
-  <!-- ═══ C — Wave ═══ -->
-  <div class="variation">
-    <div class="var-label">C — Wave</div>
-    <div class="phone">
-      <div class="screen">
-        <div class="ph ph-header"></div>
-        <div class="ph ph-block"></div>
-        <div class="ph-lines"><div class="ph-line w90"></div><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
-
-        <div class="mod-c" id="modC">
-          <div class="top-row">
-            <img src="CS_headshot_400x400.png" alt="CS">
-            <div class="top-info">
-              <div class="top-name">Christian Sanz</div>
-              <div class="top-label">Our Mission — Founder & CEO</div>
-            </div>
-            <button class="play-sm" data-var="c">
-              <svg class="ico-play" viewBox="0 0 24 24"><polygon points="8,4 20,12 8,20"/></svg>
-              <svg class="ico-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="3.5" height="16"/><rect x="14.5" y="4" width="3.5" height="16"/></svg>
-            </button>
-          </div>
-          <div class="wave-wrap">
-            <div class="wave-hero" id="waveC">
-              <canvas></canvas>
-              <div class="playhead" data-playhead-c></div>
-            </div>
-            <div class="cc-overlay" data-cc="c">
-              <div class="cc-overlay-text empty"></div>
-            </div>
-          </div>
-          <div class="time-row">
-            <span data-time-c-cur>0:00</span>
-            <span data-time-c-tot>4:11</span>
-          </div>
-        </div>
-
-        <div class="ph-lines"><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
-        <div class="ph ph-block short"></div>
-        <div class="ph ph-block tall"></div>
-        <div class="ph-lines"><div class="ph-line w60"></div><div class="ph-line w80"></div></div>
+      <div class="meta-row">
+        <span class="meta-name">Christian Sanz, Founder & CEO</span>
+        <span class="meta-time" id="timeLabel">0:00 / 4:11</span>
       </div>
+      <div class="transcript" id="transcript"></div>
     </div>
-  </div>
 
+    <div class="ph-lines">
+      <div class="ph-line w80"></div>
+      <div class="ph-line w90"></div>
+      <div class="ph-line w40"></div>
+    </div>
+    <div class="ph ph-block short"></div>
+    <div class="ph ph-block tall"></div>
+    <div class="ph-lines">
+      <div class="ph-line w60"></div>
+      <div class="ph-line w80"></div>
+    </div>
+    <div class="ph ph-block"></div>
+
+  </div>
 </div>
 
 <script>
-// ─── Transcript data ───
+// ─── Timestamped transcript (corrected timing from 10s-chunk re-transcription) ───
 const TRANSCRIPT = [
-  { start: 0.0,  end: 5.5,  text: "Hi, I'm Christian Sanz, Founder and CEO of USAvionix." },
-  { start: 5.5,  end: 12.0, text: "For nearly two decades, I've been building companies in core technologies around drones, robotics, and 3D sensing." },
-  { start: 12.0, end: 18.0, text: "After exiting my previous company, I started thinking about a much bigger question:" },
-  { start: 18.0, end: 25.0, text: "What would an aerial system look like if it were designed from the beginning to operate autonomously?" },
-  { start: 25.0, end: 30.0, text: "That question is what led to USAvionix." },
-  { start: 30.0, end: 40.0, text: "Over the past year, we've assembled a team of engineers, researchers, and builders working across autonomy, AI, aerospace, and robotics to bring this vision to life." },
-  { start: 40.0, end: 48.0, text: "Over the coming months, we're excited to introduce you to the people behind it." },
-  { start: 48.0, end: 55.0, text: "At USAvionix, we're building what we call sentient drones for good." },
-  { start: 55.0, end: 62.0, text: "Most drones today are still tools that humans fly. They collect data, stream video." },
-  { start: 62.0, end: 70.0, text: "A person has to watch the feed, interpret what is happening, and decide what to do next." },
-  { start: 70.0, end: 78.0, text: "That workflow simply does not match the speed and scale of the challenges we face today." },
-  { start: 78.0, end: 84.0, text: "Wildfires spread in minutes. Critical infrastructure spans hundreds of miles." },
-  { start: 84.0, end: 92.0, text: "Security threats can move faster than a human operator can analyze a video feed. A person watching a screen cannot keep up with that scale." },
-  { start: 92.0, end: 98.0, text: "We believe the system itself needs to take on the responsibility." },
-  { start: 98.0, end: 106.0, text: "What has changed in the last few years is the maturity of AI. We can now use AI not just to analyze data, but to design the system." },
-  { start: 106.0, end: 115.0, text: "Integrate the complex stacks, and assist in operating them in real time." },
-  { start: 115.0, end: 125.0, text: "At USAvionix, AI is embedded across the entire platform. It helps define missions, coordinate the aircraft, interpret sensor data, and continuously improve how the system operates." },
-  { start: 125.0, end: 132.0, text: "That shift is what makes true autonomy possible now." },
-  { start: 132.0, end: 140.0, text: "To make that possible, we\u2019re vertically integrating the entire system \u2014 the aircraft, the sensors, the onboard AI, the ground software, and the intelligence platform that connects everything together." },
-  { start: 140.0, end: 150.0, text: "The scale of what we\u2019re building is dramatically different than traditional systems. A human operator might analyze dozens of objects a minute." },
-  { start: 150.0, end: 160.0, text: "Our architecture is designed to perform thousands of detections every second \u2014 continuously identifying vehicles, people, anomalies, and changes across very large areas." },
-  { start: 160.0, end: 168.0, text: "That difference in scale changes what these systems can actually do." },
-  { start: 168.0, end: 176.0, text: "Instead of watching a single location, they can monitor entire regions continuously and detect risk far earlier." },
-  { start: 176.0, end: 186.0, text: "The aircraft itself is also built for a completely different performance envelope. Most drones today operate at roughly 30 to 40 kilometers per hour and they\u2019re very limited in how much data they can collect." },
-  { start: 186.0, end: 196.0, text: "Our systems are being designed to operate at 400 to 500 kilometers per hour, allowing a single aircraft to cover extremely large operational areas." },
-  { start: 196.0, end: 205.0, text: "Combined with advanced optical sensing and onboard intelligence, this creates a new category of aerial awareness." },
-  { start: 205.0, end: 212.0, text: "The applications are incredibly important. Protecting critical infrastructure that our societies depend on every single day." },
-  { start: 212.0, end: 218.0, text: "Supporting public safety teams and first responders. Helping firefighters detect and track wildfires earlier." },
-  { start: 218.0, end: 225.0, text: "Assisting coast guards in locating people cast across vast oceans." },
-  { start: 225.0, end: 232.0, text: "And supporting national security missions where speed, awareness, and autonomy matter." },
-  { start: 232.0, end: 240.0, text: "As the world becomes more complex and interconnected, the challenges we face are evolving just as quickly." },
-  { start: 240.0, end: 246.0, text: "We believe autonomous systems will become essential tools for keeping society safe, resilient, and prepared." },
-  { start: 246.0, end: 252.0, text: "Our goal is very simple: build intelligent aerial systems that can observe the world at scale, detect problems earlier, and help people respond faster." },
-  { start: 252.0, end: 256.0, text: "That\u2019s the mission behind USAvionix \u2014 and we\u2019re just getting started." }
+  { start: 0.0,  end: 5.0,   text: "Hi, I\u2019m Christian Sanz, Founder and CEO of USAvionix." },
+  { start: 5.0,  end: 11.5,  text: "For nearly two decades, I\u2019ve been building companies in core technologies around drones, robotics, and 3D sensing." },
+  { start: 11.5, end: 17.0,  text: "After exiting my previous company, I started thinking about a much bigger question:" },
+  { start: 17.0, end: 24.0,  text: "What would an aerial system look like if it were designed from the beginning to operate autonomously?" },
+  { start: 24.0, end: 28.0,  text: "That question is what led to USAvionix." },
+  { start: 28.0, end: 38.0,  text: "Over the past year, we\u2019ve assembled a team of engineers, researchers, and builders working across autonomy, AI, aerospace, and robotics to bring this vision to life." },
+  { start: 38.0, end: 45.0,  text: "Over the coming months, we\u2019re excited to introduce you to the people behind it." },
+  { start: 45.0, end: 52.0,  text: "At USAvionix, we\u2019re building what we call sentient drones for good." },
+  { start: 52.0, end: 58.0,  text: "Most drones today are still tools that humans fly. They collect data, stream video." },
+  { start: 58.0, end: 65.0,  text: "A person has to watch the feed, interpret what is happening, and decide what to do next." },
+  { start: 65.0, end: 72.0,  text: "That workflow simply does not match the speed and scale of the challenges we face today." },
+  { start: 72.0, end: 78.0,  text: "Wildfires spread in minutes. Critical infrastructure spans hundreds of miles." },
+  { start: 78.0, end: 86.0,  text: "Security threats can move faster than a human operator can analyze a video feed. A person watching a screen cannot keep up with that scale." },
+  { start: 86.0, end: 90.0,  text: "We believe the system itself needs to take on the responsibility." },
+  { start: 90.0, end: 97.0,  text: "What has changed in the last few years is the maturity of AI. We can now use AI not just to analyze data, but to design the system." },
+  { start: 97.0, end: 103.0, text: "Integrate the complex stacks, and assist in operating them in real time." },
+  { start: 103.0, end: 112.0, text: "At USAvionix, AI is embedded across the entire platform. It helps define missions, coordinate the aircraft, interpret sensor data, and continuously improve how the system operates." },
+  { start: 112.0, end: 117.0, text: "That shift is what makes true autonomy possible now." },
+  { start: 117.0, end: 128.0, text: "To make that possible, we\u2019re vertically integrating the entire system \u2014 the aircraft, the sensors, the onboard AI, the autonomy software, and the intelligence platform that connects everything together." },
+  { start: 128.0, end: 136.0, text: "The scale of what we\u2019re building is dramatically different than traditional systems. A human operator might analyze dozens of objects a minute." },
+  { start: 136.0, end: 146.0, text: "Our architecture is designed to perform thousands of detections every second \u2014 continuously identifying vehicles, people, anomalies, and changes across very large areas." },
+  { start: 146.0, end: 152.0, text: "That difference in scale changes what these systems can actually do." },
+  { start: 152.0, end: 158.0, text: "Instead of watching a single location, they can monitor entire regions continuously and detect risk far earlier." },
+  { start: 158.0, end: 170.0, text: "The aircraft itself is also built for a completely different performance envelope. Most drones today operate at roughly 30 to 40 kilometers per hour and they\u2019re very limited in how much data they can collect." },
+  { start: 170.0, end: 180.0, text: "Our systems are being designed to operate at 400 to 500 kilometers per hour, allowing a single aircraft to cover extremely large operational areas." },
+  { start: 180.0, end: 189.0, text: "Combined with advanced optical sensing and onboard intelligence, this creates a new category of aerial awareness." },
+  { start: 189.0, end: 197.0, text: "The applications are incredibly important. Protecting critical infrastructure that our societies depend on every single day." },
+  { start: 197.0, end: 205.0, text: "Supporting public safety teams and first responders. Helping firefighters detect and track wildfires earlier." },
+  { start: 205.0, end: 210.0, text: "Assisting coast guards in locating people cast across vast oceans." },
+  { start: 210.0, end: 217.0, text: "And supporting national security missions where speed, awareness, and autonomy matter." },
+  { start: 217.0, end: 225.0, text: "As the world becomes more complex and interconnected, the challenges we face are evolving just as quickly." },
+  { start: 225.0, end: 233.0, text: "We believe autonomous systems will become essential tools for keeping society safe, resilient, and prepared." },
+  { start: 233.0, end: 244.0, text: "Our goal is very simple: build intelligent aerial systems that can observe the world at scale, detect problems earlier, and help people respond faster." },
+  { start: 244.0, end: 252.0, text: "That\u2019s the mission behind USAvionix \u2014 and we\u2019re just getting started." }
 ];
 
-// ─── Shared audio engine ───
+// ─── Audio + Web Audio API ───
 const audio = new Audio('final-audio.mp3');
 audio.preload = 'auto';
-let audioCtx, sourceNode;
-const analysers = {};
-const dataArrays = {};
-let activeVar = null;
+let audioCtx, analyser, source, dataArray;
+let isPlaying = false;
 let ccVisible = true;
 
 function initAudio() {
   if (audioCtx) return;
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  sourceNode = audioCtx.createMediaElementSource(audio);
-  ['a', 'c'].forEach(v => {
-    const an = audioCtx.createAnalyser();
-    an.fftSize = 128;
-    an.smoothingTimeConstant = 0.78;
-    analysers[v] = an;
-    dataArrays[v] = new Uint8Array(an.frequencyBinCount);
-    sourceNode.connect(an);
-  });
-  sourceNode.connect(audioCtx.destination);
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 128;
+  analyser.smoothingTimeConstant = 0.78;
+  dataArray = new Uint8Array(analyser.frequencyBinCount);
+  source = audioCtx.createMediaElementSource(audio);
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
 }
 
-function formatTime(s) {
-  if (!s || isNaN(s)) return '0:00';
-  return `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
-}
-
-function toggleVar(v) {
+// ─── Play / Pause ───
+document.getElementById('playBtn').addEventListener('click', () => {
   initAudio();
-  if (activeVar === v) {
+  if (isPlaying) {
     audio.pause();
-    document.getElementById('mod' + v.toUpperCase()).classList.remove('playing');
-    activeVar = null;
+    isPlaying = false;
+    document.getElementById('audioModule').classList.remove('playing');
   } else {
-    if (activeVar) document.getElementById('mod' + activeVar.toUpperCase()).classList.remove('playing');
-    activeVar = v;
-    document.getElementById('mod' + v.toUpperCase()).classList.add('playing');
     audio.play();
-    renderLoop();
+    isPlaying = true;
+    document.getElementById('audioModule').classList.add('playing');
+    renderFFT();
   }
-}
+});
 
-// CC Toggle
+// ─── CC Toggle ───
 document.getElementById('ccToggle').addEventListener('click', () => {
   ccVisible = !ccVisible;
-  // A: transcript list
-  document.querySelectorAll('.transcript').forEach(el => el.classList.toggle('hidden', !ccVisible));
-  // B: ticker
-  document.querySelectorAll('.cc-ticker').forEach(el => el.classList.toggle('hidden', !ccVisible));
-  // C: overlay
-  document.querySelectorAll('.cc-overlay').forEach(el => el.classList.toggle('hidden', !ccVisible));
-  const toggle = document.getElementById('ccToggle');
-  toggle.classList.toggle('active', ccVisible);
+  document.getElementById('transcript').classList.toggle('hidden', !ccVisible);
+  document.getElementById('ccToggle').classList.toggle('active', ccVisible);
   document.getElementById('ccLabel').textContent = ccVisible ? 'CC ON' : 'CC OFF';
 });
 
-function scrubTo(e, v) {
-  initAudio();
-  const rect = e.currentTarget.getBoundingClientRect();
-  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-  audio.currentTime = pct * (audio.duration || 251);
-  if (activeVar !== v) toggleVar(v);
+// ─── FFT rendering (bars with played/unplayed dimming) ───
+const canvas = document.getElementById('fftCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  const c = document.getElementById('fftContainer');
+  canvas.width = c.offsetWidth * devicePixelRatio;
+  canvas.height = c.offsetHeight * devicePixelRatio;
+}
+resizeCanvas();
+window.addEventListener('resize', () => { resizeCanvas(); drawBars(null); });
+
+function renderFFT() {
+  if (!isPlaying) { drawBars(null); return; }
+  requestAnimationFrame(renderFFT);
+  analyser.getByteFrequencyData(dataArray);
+  drawBars(dataArray);
 }
 
-// ─── A: FFT bars with played/unplayed dimming ───
-const canvasA = document.querySelector('#fftA canvas');
-const ctxA = canvasA.getContext('2d');
+function drawBars(data) {
+  const w = canvas.width / devicePixelRatio;
+  const h = canvas.height / devicePixelRatio;
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  ctx.clearRect(0, 0, w, h);
 
-function resizeCanvasA() {
-  const c = document.getElementById('fftA');
-  canvasA.width = c.offsetWidth * devicePixelRatio;
-  canvasA.height = c.offsetHeight * devicePixelRatio;
-}
-
-function drawA() {
-  const w = canvasA.width / devicePixelRatio;
-  const h = canvasA.height / devicePixelRatio;
-  ctxA.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-  ctxA.clearRect(0, 0, w, h);
-
-  const bars = 40, gap = 2;
+  const bars = 44, gap = 2;
   const bw = (w - (bars - 1) * gap) / bars;
   const pct = audio.duration ? audio.currentTime / audio.duration : 0;
-  const data = dataArrays.a;
-  if (activeVar) analysers.a.getByteFrequencyData(data);
 
   for (let i = 0; i < bars; i++) {
     const pos = i / bars;
-    let val = activeVar ? data[Math.min(Math.floor((i / bars) * (data.length * 0.8)) + 2, data.length - 1)] / 255 : 0.08;
+    let val;
+    if (data) {
+      const bin = Math.floor((i / bars) * (data.length * 0.8)) + 2;
+      val = data[Math.min(bin, data.length - 1)] / 255;
+    } else {
+      val = 0.08;
+    }
     const bh = Math.max(2, val * h * 0.85);
     const x = i * (bw + gap);
     const y = (h - bh) / 2;
     const played = pos <= pct;
     const alpha = played ? (0.3 + val * 0.55) : (0.1 + val * 0.2);
-    ctxA.fillStyle = `rgba(255,255,255,${alpha})`;
-    ctxA.fillRect(x, y, bw, bh);
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.fillRect(x, y, bw, bh);
   }
 }
-document.getElementById('fftA').addEventListener('click', e => scrubTo(e, 'a'));
+drawBars(null);
 
-// ─── C: Mirrored waveform bars with playhead ───
-const canvasC = document.querySelector('#waveC canvas');
-const ctxC = canvasC.getContext('2d');
+// ─── Scrub ───
+function scrub(e) {
+  initAudio();
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  audio.currentTime = pct * (audio.duration || 251);
+  if (!isPlaying) document.getElementById('playBtn').click();
+}
+document.getElementById('fftContainer').addEventListener('click', scrub);
 
-function resizeCanvasC() {
-  const c = document.getElementById('waveC');
-  canvasC.width = c.offsetWidth * devicePixelRatio;
-  canvasC.height = c.offsetHeight * devicePixelRatio;
+// ─── Time + progress ───
+function formatTime(s) {
+  if (!s || isNaN(s)) return '0:00';
+  return `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
 }
 
-function drawC() {
-  const w = canvasC.width / devicePixelRatio;
-  const h = canvasC.height / devicePixelRatio;
-  ctxC.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-  ctxC.clearRect(0, 0, w, h);
-
-  const bars = 56, gap = 1.5;
-  const bw = (w - (bars - 1) * gap) / bars;
-  const pct = audio.duration ? audio.currentTime / audio.duration : 0;
-  const data = dataArrays.c;
-  if (activeVar) analysers.c.getByteFrequencyData(data);
-
-  for (let i = 0; i < bars; i++) {
-    const pos = i / bars;
-    let val = activeVar ? data[Math.min(Math.floor((i / bars) * (data.length * 0.8)) + 2, data.length - 1)] / 255 : 0.08;
-    const bh = Math.max(1.5, val * h * 0.42);
-    const x = i * (bw + gap);
-    const yTop = h / 2 - bh;
-    const played = pos <= pct;
-    const alpha = played ? (0.35 + val * 0.5) : (0.08 + val * 0.18);
-    ctxC.fillStyle = `rgba(255,255,255,${alpha})`;
-    ctxC.fillRect(x, yTop, bw, bh * 2);
-  }
-
-  document.querySelector('[data-playhead-c]').style.left = (pct * 100) + '%';
-}
-document.getElementById('waveC').addEventListener('click', e => scrubTo(e, 'c'));
-
-// ─── Render loop ───
-function renderLoop() {
-  drawA(); drawC();
-  if (activeVar) requestAnimationFrame(renderLoop);
-}
-
-function resizeAll() { resizeCanvasA(); resizeCanvasC(); drawA(); drawC(); }
-window.addEventListener('resize', resizeAll);
-setTimeout(resizeAll, 50);
-
-// ─── Wire play buttons ───
-document.querySelector('[data-var="a"]').addEventListener('click', () => toggleVar('a'));
-document.querySelector('[data-var="b"]').addEventListener('click', () => toggleVar('b'));
-document.querySelector('[data-var="c"]').addEventListener('click', () => toggleVar('c'));
-document.querySelector('[data-scrub="b"]').addEventListener('click', e => scrubTo(e, 'b'));
-
-// ─── Time updates ───
 audio.addEventListener('timeupdate', () => {
-  const t = audio.currentTime;
-  const d = audio.duration || 251;
-  const pct = (t / d) * 100;
-
-  document.querySelector('[data-time-a]').textContent = `${formatTime(t)} / ${formatTime(d)}`;
-  document.querySelector('[data-fill-b]').style.width = pct + '%';
-  document.querySelector('[data-time-b-cur]').textContent = formatTime(t);
-  document.querySelector('[data-time-c-cur]').textContent = formatTime(t);
-
-  updateCC(t);
+  document.getElementById('timeLabel').textContent =
+    `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+  updateTranscript(audio.currentTime);
 });
 
 audio.addEventListener('loadedmetadata', () => {
-  const d = formatTime(audio.duration);
-  document.querySelector('[data-time-a]').textContent = `0:00 / ${d}`;
-  document.querySelector('[data-time-b-tot]').textContent = d;
-  document.querySelector('[data-time-c-tot]').textContent = d;
+  document.getElementById('timeLabel').textContent = `0:00 / ${formatTime(audio.duration)}`;
 });
 
 audio.addEventListener('ended', () => {
-  if (activeVar) document.getElementById('mod' + activeVar.toUpperCase()).classList.remove('playing');
-  activeVar = null;
-  drawA(); drawC();
+  isPlaying = false;
+  document.getElementById('audioModule').classList.remove('playing');
+  drawBars(null);
 });
 
-// ─── CC: A = scrolling list, B = ticker, C = overlay ───
-
-// Build A transcript (scrolling list)
-const transcriptA = document.querySelector('[data-transcript="a"]');
-TRANSCRIPT.forEach((seg, i) => {
+// ─── Transcript ───
+const transcriptEl = document.getElementById('transcript');
+TRANSCRIPT.forEach((seg) => {
   const div = document.createElement('div');
   div.className = 'transcript-line';
   div.textContent = seg.text;
-  div.addEventListener('click', () => { initAudio(); audio.currentTime = seg.start; if (activeVar !== 'a') toggleVar('a'); });
-  transcriptA.appendChild(div);
+  div.addEventListener('click', () => {
+    initAudio();
+    audio.currentTime = seg.start;
+    if (!isPlaying) document.getElementById('playBtn').click();
+  });
+  transcriptEl.appendChild(div);
 });
 
-function updateCC(time) {
+function updateTranscript(time) {
+  const lines = transcriptEl.querySelectorAll('.transcript-line');
   let activeIndex = -1;
   TRANSCRIPT.forEach((seg, i) => { if (time >= seg.start && time < seg.end) activeIndex = i; });
-
-  // A: scrolling list — highlight active, dim past
-  const lines = transcriptA.querySelectorAll('.transcript-line');
   lines.forEach((line, i) => {
     line.classList.remove('active', 'past');
     if (i === activeIndex) {
       line.classList.add('active');
-      const lineTop = line.offsetTop - transcriptA.offsetTop;
-      transcriptA.scrollTo({ top: lineTop - transcriptA.clientHeight / 3, behavior: 'smooth' });
+      const lineTop = line.offsetTop - transcriptEl.offsetTop;
+      transcriptEl.scrollTo({ top: lineTop - transcriptEl.clientHeight / 3, behavior: 'smooth' });
     } else if (i < activeIndex) {
       line.classList.add('past');
     }
   });
-
-  // B: single-line ticker — show only current sentence
-  const tickerText = document.querySelector('.cc-ticker-text');
-  if (activeIndex >= 0) {
-    tickerText.textContent = TRANSCRIPT[activeIndex].text;
-    tickerText.classList.remove('empty');
-  } else {
-    tickerText.textContent = activeVar ? '' : 'Press play to listen';
-    tickerText.classList.toggle('empty', !activeVar);
-  }
-
-  // C: floating overlay — show current sentence with left border accent
-  const overlayText = document.querySelector('.cc-overlay-text');
-  if (activeIndex >= 0) {
-    overlayText.textContent = TRANSCRIPT[activeIndex].text;
-    overlayText.classList.remove('empty');
-  } else {
-    overlayText.textContent = '';
-    overlayText.classList.add('empty');
-  }
 }
 </script>
 </body>
