@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>USAvionix — CEO Message</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>USAvionix — CEO Audio Module</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -12,15 +12,25 @@
     background: #000;
     font-family: 'Inter', sans-serif;
     color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
-    overflow: hidden;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
-  /* ── CC Toggle (top-right, outside phone) ── */
+  /* ── Page layout ── */
+  .page-header {
+    text-align: center;
+    padding: 48px 24px 12px;
+  }
+  .page-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #444;
+  }
+
+  /* CC toggle */
   .cc-toggle {
     position: fixed;
     top: 20px;
@@ -31,214 +41,337 @@
     cursor: pointer;
     z-index: 100;
     user-select: none;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
-    color: #666;
+    color: #555;
     letter-spacing: 0.03em;
     transition: color 0.2s;
   }
   .cc-toggle:hover { color: #999; }
   .cc-toggle.active { color: #fff; }
-  .cc-toggle svg { width: 18px; height: 18px; }
+  .cc-toggle svg { width: 16px; height: 16px; }
 
-  /* ── iPhone silhouette ── */
+  /* ── Three-up grid ── */
+  .variations {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 32px 64px;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .variations {
+      grid-template-columns: 1fr;
+      max-width: 420px;
+      gap: 48px;
+      padding: 24px 20px 64px;
+    }
+  }
+
+  /* ── Variation container ── */
+  .variation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .var-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #333;
+    margin-bottom: 16px;
+  }
+
+  /* ── iPhone shell (shared) ── */
   .phone {
-    width: 375px;
-    height: 812px;
-    border: 2px solid #333;
-    border-radius: 44px;
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 9 / 19.5;
+    border: 1.5px solid #2a2a2a;
+    border-radius: 40px;
     background: #000;
     position: relative;
     overflow: hidden;
-    flex-shrink: 0;
   }
-
-  /* Notch */
   .phone::before {
     content: '';
     position: absolute;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 150px;
-    height: 28px;
+    width: 120px;
+    height: 24px;
     background: #000;
-    border-radius: 0 0 18px 18px;
-    border-bottom: 1px solid #222;
-    border-left: 1px solid #222;
-    border-right: 1px solid #222;
+    border-radius: 0 0 16px 16px;
+    border-bottom: 1px solid #1e1e1e;
+    border-left: 1px solid #1e1e1e;
+    border-right: 1px solid #1e1e1e;
     z-index: 10;
   }
-
-  /* Status bar time */
   .phone::after {
     content: '9:41';
     position: absolute;
-    top: 6px;
+    top: 4px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     color: #fff;
     z-index: 11;
   }
 
-  /* ── Screen content ── */
   .screen {
     width: 100%;
     height: 100%;
-    padding: 52px 20px 20px;
+    padding: 44px 16px 16px;
     overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
   .screen::-webkit-scrollbar { display: none; }
 
-  /* ── Placeholder blocks (gray rectangles for fake content) ── */
-  .placeholder-bar {
-    background: #1a1a1a;
-    border-radius: 4px;
-    width: 100%;
-  }
-  .placeholder-header {
-    height: 44px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    padding: 0 12px;
-  }
-  .placeholder-header::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: #333;
-    margin-right: 12px;
-  }
-  .placeholder-header::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 2px;
-    background: #333;
-  }
+  /* ── Placeholder blocks ── */
+  .ph { background: #141414; border-radius: 4px; width: 100%; }
+  .ph-header { height: 36px; margin-bottom: 12px; }
+  .ph-block { height: 64px; margin-bottom: 10px; }
+  .ph-block.tall { height: 96px; }
+  .ph-block.short { height: 36px; }
+  .ph-lines { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .ph-line { height: 2px; background: #141414; border-radius: 1px; }
+  .ph-line.w90 { width: 90%; }
+  .ph-line.w80 { width: 80%; }
+  .ph-line.w60 { width: 60%; }
+  .ph-line.w40 { width: 40%; }
 
-  .placeholder-block {
-    height: 80px;
-    margin-bottom: 12px;
-  }
-  .placeholder-block.tall { height: 120px; }
-  .placeholder-block.short { height: 48px; }
-
-  .placeholder-lines {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-  .placeholder-line {
-    height: 2px;
-    background: #1a1a1a;
-    border-radius: 1px;
-  }
-  .placeholder-line.w80 { width: 80%; }
-  .placeholder-line.w60 { width: 60%; }
-  .placeholder-line.w90 { width: 90%; }
-  .placeholder-line.w40 { width: 40%; }
-
-  /* ── Audio module ── */
-  .audio-module {
-    margin: 20px 0;
-    padding: 20px 16px;
-    border: 1px solid #222;
-    border-radius: 12px;
+  /* ══════════════════════════════════════════════
+     VARIATION A — "Signal"
+     Inline horizontal: headshot-as-button | FFT-as-progress
+     Inspired by voice messages in messaging apps
+     ══════════════════════════════════════════════ */
+  .mod-a {
+    margin: 14px 0;
+    padding: 14px;
+    border: 1px solid #1e1e1e;
+    border-radius: 10px;
     background: #0a0a0a;
   }
-
-  .module-title {
-    font-size: 11px;
+  .mod-a .mod-label {
+    font-size: 10px;
     font-weight: 500;
-    color: #555;
+    color: #444;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
   }
-
-  .module-header {
+  .mod-a .player-row {
     display: flex;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 16px;
+    gap: 10px;
   }
-
-  /* Headshot */
-  .headshot-wrap {
+  /* Headshot = play button */
+  .mod-a .avatar-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: none;
+    cursor: pointer;
     position: relative;
-    width: 56px;
-    height: 56px;
     flex-shrink: 0;
+    padding: 0;
   }
-  .headshot {
-    width: 56px;
-    height: 56px;
+  .mod-a .avatar-btn img {
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     object-fit: cover;
     display: block;
     transition: opacity 0.3s;
   }
-  .headshot-wrap::after {
+  .mod-a .avatar-btn .av-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .mod-a .avatar-btn:hover .av-overlay { background: rgba(0,0,0,0.3); }
+  .mod-a .avatar-btn .av-overlay svg { width: 16px; height: 16px; fill: #fff; }
+  .mod-a .avatar-btn .ico-pause { display: none; }
+  .mod-a.playing .avatar-btn .ico-play { display: none; }
+  .mod-a.playing .avatar-btn .ico-pause { display: block; }
+  .mod-a.playing .avatar-btn .av-overlay { background: rgba(0,0,0,0.25); }
+
+  /* Pulse ring on playing */
+  .mod-a .avatar-btn::after {
     content: '';
     position: absolute;
     inset: -3px;
     border-radius: 50%;
     border: 1px solid transparent;
-    transition: border-color 0.4s, opacity 0.4s;
-    opacity: 0;
+    transition: all 0.4s;
   }
-  .playing .headshot-wrap::after {
-    border-color: #444;
-    opacity: 1;
-    animation: pulse-ring 2.4s ease-in-out infinite;
+  .mod-a.playing .avatar-btn::after {
+    border-color: #333;
+    animation: pulse-a 2s ease-in-out infinite;
   }
-
-  @keyframes pulse-ring {
+  @keyframes pulse-a {
     0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(1.06); }
+    50% { opacity: 0.6; transform: scale(1.05); }
   }
 
-  .module-name {
-    font-size: 15px;
-    font-weight: 500;
-    color: #e0e0e0;
-    line-height: 1.3;
-  }
-  .module-role {
-    font-size: 12px;
-    color: #555;
-    margin-top: 2px;
-  }
-
-  /* ── FFT Visualizer ── */
-  .fft-container {
+  /* FFT+Progress combined */
+  .mod-a .fft-progress {
+    flex: 1;
+    height: 36px;
     position: relative;
-    height: 48px;
-    margin-bottom: 12px;
     cursor: pointer;
   }
-  #fft-canvas {
+  .mod-a .fft-progress canvas {
     width: 100%;
     height: 100%;
     display: block;
   }
 
-  /* ── Progress bar ── */
-  .progress-row {
+  /* Time + name row */
+  .mod-a .meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 6px;
+  }
+  .mod-a .meta-name {
+    font-size: 11px;
+    font-weight: 500;
+    color: #555;
+  }
+  .mod-a .meta-time {
+    font-size: 10px;
+    color: #333;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Transcript A */
+  .mod-a .transcript {
+    max-height: 80px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    margin-top: 8px;
+    transition: max-height 0.4s, opacity 0.4s;
+  }
+  .mod-a .transcript::-webkit-scrollbar { display: none; }
+  .mod-a .transcript.hidden { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; }
+  .mod-a .transcript-line {
+    font-size: 11px;
+    line-height: 1.55;
+    color: #2a2a2a;
+    padding: 2px 0;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  .mod-a .transcript-line:hover { color: #555; }
+  .mod-a .transcript-line.active { color: #bbb; }
+  .mod-a .transcript-line.past { color: #444; }
+
+
+  /* ══════════════════════════════════════════════
+     VARIATION B — "Pulse"
+     Centered card: radial FFT ring around headshot
+     Podcast-episode feel
+     ══════════════════════════════════════════════ */
+  .mod-b {
+    margin: 14px 0;
+    padding: 16px 14px;
+    border: 1px solid #1e1e1e;
+    border-radius: 10px;
+    background: #0a0a0a;
+    text-align: center;
+  }
+  .mod-b .mod-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: #444;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* Radial FFT container */
+  .mod-b .radial-wrap {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    cursor: pointer;
+  }
+  .mod-b .radial-wrap canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .mod-b .radial-wrap img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 2;
+  }
+  .mod-b .radial-wrap .play-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    z-index: 3;
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 14px;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
   }
-  .progress-track {
+  .mod-b .radial-wrap .play-ring:hover { background: rgba(0,0,0,0.15); }
+  .mod-b .radial-wrap .play-ring svg { width: 20px; height: 20px; fill: rgba(255,255,255,0.8); filter: drop-shadow(0 1px 3px rgba(0,0,0,0.7)); }
+  .mod-b .radial-wrap .play-ring .ico-pause { display: none; }
+  .mod-b.playing .radial-wrap .play-ring .ico-play { display: none; }
+  .mod-b.playing .radial-wrap .play-ring .ico-pause { display: block; }
+
+  .mod-b .mod-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #ccc;
+  }
+  .mod-b .mod-role {
+    font-size: 10px;
+    color: #444;
+    margin-top: 1px;
+  }
+
+  /* Progress bar B */
+  .mod-b .prog-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .mod-b .prog-time {
+    font-size: 9px;
+    color: #333;
+    font-variant-numeric: tabular-nums;
+    min-width: 28px;
+  }
+  .mod-b .prog-time.right { text-align: right; }
+  .mod-b .prog-track {
     flex: 1;
     height: 2px;
     background: #1a1a1a;
@@ -246,112 +379,164 @@
     cursor: pointer;
     position: relative;
   }
-  .progress-fill {
+  .mod-b .prog-fill {
     height: 100%;
     background: #fff;
     border-radius: 1px;
     width: 0%;
     transition: width 0.1s linear;
   }
-  .time-label {
-    font-size: 10px;
-    color: #444;
-    font-variant-numeric: tabular-nums;
-    min-width: 32px;
-  }
-  .time-label.right { text-align: right; }
 
-  /* ── Play button ── */
-  .controls {
+  /* Transcript B */
+  .mod-b .transcript {
+    max-height: 80px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    margin-top: 10px;
+    text-align: left;
+    transition: max-height 0.4s, opacity 0.4s;
+  }
+  .mod-b .transcript::-webkit-scrollbar { display: none; }
+  .mod-b .transcript.hidden { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; }
+  .mod-b .transcript-line {
+    font-size: 11px;
+    line-height: 1.55;
+    color: #2a2a2a;
+    padding: 2px 0;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  .mod-b .transcript-line:hover { color: #555; }
+  .mod-b .transcript-line.active { color: #bbb; }
+  .mod-b .transcript-line.past { color: #444; }
+
+
+  /* ══════════════════════════════════════════════
+     VARIATION C — "Wave"
+     Full-width waveform hero, headshot tucked top-left
+     SoundCloud-style, waveform IS the interface
+     ══════════════════════════════════════════════ */
+  .mod-c {
+    margin: 14px 0;
+    padding: 14px;
+    border: 1px solid #1e1e1e;
+    border-radius: 10px;
+    background: #0a0a0a;
+  }
+  .mod-c .top-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 14px;
+    gap: 8px;
+    margin-bottom: 10px;
   }
-  .play-btn {
-    width: 36px;
-    height: 36px;
+  .mod-c .top-row img {
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    border: 1px solid #333;
+    object-fit: cover;
+  }
+  .mod-c .top-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .mod-c .top-name {
+    font-size: 11px;
+    font-weight: 500;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mod-c .top-label {
+    font-size: 9px;
+    color: #333;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .mod-c .play-sm {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #2a2a2a;
     background: transparent;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: border-color 0.2s, background 0.2s;
+    flex-shrink: 0;
+    transition: border-color 0.2s;
+    padding: 0;
   }
-  .play-btn:hover {
-    border-color: #555;
-    background: #111;
-  }
-  .play-btn svg {
-    width: 14px;
-    height: 14px;
-    fill: #ccc;
-  }
-  .play-btn .pause-icon { display: none; }
-  .playing .play-btn .play-icon { display: none; }
-  .playing .play-btn .pause-icon { display: block; }
+  .mod-c .play-sm:hover { border-color: #444; }
+  .mod-c .play-sm svg { width: 10px; height: 10px; fill: #999; }
+  .mod-c .play-sm .ico-pause { display: none; }
+  .mod-c.playing .play-sm .ico-play { display: none; }
+  .mod-c.playing .play-sm .ico-pause { display: block; }
 
-  /* ── Transcript ── */
-  .transcript {
-    max-height: 120px;
+  /* Waveform hero */
+  .mod-c .wave-hero {
+    position: relative;
+    height: 56px;
+    cursor: pointer;
+  }
+  .mod-c .wave-hero canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  /* Playhead line */
+  .mod-c .playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #fff;
+    left: 0%;
+    transition: left 0.1s linear;
+    pointer-events: none;
+  }
+
+  /* Time row */
+  .mod-c .time-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+  .mod-c .time-row span {
+    font-size: 9px;
+    color: #333;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Transcript C */
+  .mod-c .transcript {
+    max-height: 80px;
     overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    transition: max-height 0.4s ease, opacity 0.4s ease;
+    margin-top: 8px;
+    transition: max-height 0.4s, opacity 0.4s;
   }
-  .transcript::-webkit-scrollbar { display: none; }
-  .transcript.hidden {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-  }
-
-  .transcript-line {
-    font-size: 12px;
-    line-height: 1.6;
-    color: #333;
-    padding: 4px 0;
+  .mod-c .transcript::-webkit-scrollbar { display: none; }
+  .mod-c .transcript.hidden { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; }
+  .mod-c .transcript-line {
+    font-size: 11px;
+    line-height: 1.55;
+    color: #2a2a2a;
+    padding: 2px 0;
     cursor: pointer;
     transition: color 0.3s;
   }
-  .transcript-line:hover { color: #666; }
-  .transcript-line.active { color: #ccc; }
-  .transcript-line.past { color: #555; }
-
-  /* ── Responsive scaling ── */
-  @media (max-height: 900px) {
-    .phone {
-      height: 720px;
-      width: 333px;
-    }
-  }
-  @media (max-height: 780px) {
-    .phone {
-      height: 640px;
-      width: 296px;
-      border-radius: 36px;
-    }
-    .phone::before { width: 120px; height: 24px; border-radius: 0 0 14px 14px; }
-  }
-  @media (max-width: 420px) {
-    .phone {
-      width: calc(100vw - 32px);
-      height: calc(100vh - 80px);
-      border-radius: 0;
-      border: none;
-    }
-    .phone::before { display: none; }
-    .phone::after { display: none; }
-    .cc-toggle { top: 8px; right: 12px; }
-  }
+  .mod-c .transcript-line:hover { color: #555; }
+  .mod-c .transcript-line.active { color: #bbb; }
+  .mod-c .transcript-line.past { color: #444; }
 </style>
 </head>
 <body>
 
 <!-- CC Toggle -->
-<div class="cc-toggle active" id="ccToggle" onclick="toggleCC()">
+<div class="cc-toggle active" id="ccToggle">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
     <circle cx="12" cy="12" r="3"/>
@@ -359,84 +544,139 @@
   <span id="ccLabel">CC ON</span>
 </div>
 
-<!-- iPhone -->
-<div class="phone">
-  <div class="screen">
+<div class="page-header">
+  <div class="page-title">CEO Audio Module — Design Variations</div>
+</div>
 
-    <!-- Fake header -->
-    <div class="placeholder-bar placeholder-header"></div>
+<div class="variations">
 
-    <!-- Fake content above -->
-    <div class="placeholder-bar placeholder-block"></div>
-    <div class="placeholder-lines">
-      <div class="placeholder-line w90"></div>
-      <div class="placeholder-line w80"></div>
-      <div class="placeholder-line w60"></div>
-    </div>
+  <!-- ════════════════════════════════════════ -->
+  <!-- VARIATION A — "Signal" (inline/horizontal) -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="variation">
+    <div class="var-label">A — Signal</div>
+    <div class="phone">
+      <div class="screen">
+        <div class="ph ph-header"></div>
+        <div class="ph ph-block"></div>
+        <div class="ph-lines"><div class="ph-line w90"></div><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
 
-    <!-- ═══════════════════════════════════════ -->
-    <!-- REAL AUDIO MODULE                       -->
-    <!-- ═══════════════════════════════════════ -->
-    <div class="audio-module" id="audioModule">
-      <div class="module-title">Our Mission</div>
-
-      <div class="module-header">
-        <div class="headshot-wrap">
-          <img class="headshot" src="CS_headshot_400x400.png" alt="Christian Sanz">
+        <div class="mod-a" id="modA">
+          <div class="mod-label">Our Mission</div>
+          <div class="player-row">
+            <button class="avatar-btn" data-var="a">
+              <img src="CS_headshot_400x400.png" alt="CS">
+              <div class="av-overlay">
+                <svg class="ico-play" viewBox="0 0 24 24"><polygon points="8,4 20,12 8,20"/></svg>
+                <svg class="ico-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="3.5" height="16"/><rect x="14.5" y="4" width="3.5" height="16"/></svg>
+              </div>
+            </button>
+            <div class="fft-progress" id="fftA">
+              <canvas></canvas>
+            </div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-name">Christian Sanz, Founder & CEO</span>
+            <span class="meta-time" data-time-a>0:00 / 4:11</span>
+          </div>
+          <div class="transcript" data-transcript="a"></div>
         </div>
-        <div>
-          <div class="module-name">Christian Sanz</div>
-          <div class="module-role">Founder &amp; CEO</div>
-        </div>
-      </div>
 
-      <!-- FFT visualization canvas -->
-      <div class="fft-container" id="fftContainer">
-        <canvas id="fft-canvas"></canvas>
+        <div class="ph-lines"><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
+        <div class="ph ph-block short"></div>
+        <div class="ph ph-block tall"></div>
+        <div class="ph-lines"><div class="ph-line w60"></div><div class="ph-line w80"></div></div>
       </div>
-
-      <!-- Progress -->
-      <div class="progress-row">
-        <span class="time-label" id="timeCurrent">0:00</span>
-        <div class="progress-track" id="progressTrack" onclick="scrub(event)">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
-        <span class="time-label right" id="timeTotal">4:12</span>
-      </div>
-
-      <!-- Play / Pause -->
-      <div class="controls">
-        <button class="play-btn" id="playBtn" onclick="togglePlay()">
-          <svg class="play-icon" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
-          <svg class="pause-icon" viewBox="0 0 24 24"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
-        </button>
-      </div>
-
-      <!-- Transcript (closed captions) -->
-      <div class="transcript" id="transcript"></div>
     </div>
-    <!-- ═══════════════════════════════════════ -->
-
-    <!-- Fake content below -->
-    <div class="placeholder-lines">
-      <div class="placeholder-line w80"></div>
-      <div class="placeholder-line w90"></div>
-      <div class="placeholder-line w40"></div>
-    </div>
-    <div class="placeholder-bar placeholder-block short"></div>
-    <div class="placeholder-bar placeholder-block tall"></div>
-    <div class="placeholder-lines">
-      <div class="placeholder-line w60"></div>
-      <div class="placeholder-line w80"></div>
-    </div>
-    <div class="placeholder-bar placeholder-block"></div>
-
   </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- VARIATION B — "Pulse" (centered radial) -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="variation">
+    <div class="var-label">B — Pulse</div>
+    <div class="phone">
+      <div class="screen">
+        <div class="ph ph-header"></div>
+        <div class="ph ph-block"></div>
+        <div class="ph-lines"><div class="ph-line w90"></div><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
+
+        <div class="mod-b" id="modB">
+          <div class="mod-label">Our Mission</div>
+          <div class="radial-wrap" data-var="b">
+            <canvas id="canvasB"></canvas>
+            <img src="CS_headshot_400x400.png" alt="CS">
+            <div class="play-ring">
+              <svg class="ico-play" viewBox="0 0 24 24"><polygon points="8,4 20,12 8,20"/></svg>
+              <svg class="ico-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="3.5" height="16"/><rect x="14.5" y="4" width="3.5" height="16"/></svg>
+            </div>
+          </div>
+          <div class="mod-name">Christian Sanz</div>
+          <div class="mod-role">Founder & CEO</div>
+          <div class="prog-row">
+            <span class="prog-time" data-time-b-cur>0:00</span>
+            <div class="prog-track" data-scrub="b">
+              <div class="prog-fill" data-fill-b></div>
+            </div>
+            <span class="prog-time right" data-time-b-tot>4:11</span>
+          </div>
+          <div class="transcript" data-transcript="b"></div>
+        </div>
+
+        <div class="ph-lines"><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
+        <div class="ph ph-block short"></div>
+        <div class="ph ph-block tall"></div>
+        <div class="ph-lines"><div class="ph-line w60"></div><div class="ph-line w80"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!-- VARIATION C — "Wave" (waveform hero)    -->
+  <!-- ════════════════════════════════════════ -->
+  <div class="variation">
+    <div class="var-label">C — Wave</div>
+    <div class="phone">
+      <div class="screen">
+        <div class="ph ph-header"></div>
+        <div class="ph ph-block"></div>
+        <div class="ph-lines"><div class="ph-line w90"></div><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
+
+        <div class="mod-c" id="modC">
+          <div class="top-row">
+            <img src="CS_headshot_400x400.png" alt="CS">
+            <div class="top-info">
+              <div class="top-name">Christian Sanz</div>
+              <div class="top-label">Our Mission — Founder & CEO</div>
+            </div>
+            <button class="play-sm" data-var="c">
+              <svg class="ico-play" viewBox="0 0 24 24"><polygon points="8,4 20,12 8,20"/></svg>
+              <svg class="ico-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="3.5" height="16"/><rect x="14.5" y="4" width="3.5" height="16"/></svg>
+            </button>
+          </div>
+          <div class="wave-hero" id="waveC">
+            <canvas></canvas>
+            <div class="playhead" data-playhead-c></div>
+          </div>
+          <div class="time-row">
+            <span data-time-c-cur>0:00</span>
+            <span data-time-c-tot>4:11</span>
+          </div>
+          <div class="transcript" data-transcript="c"></div>
+        </div>
+
+        <div class="ph-lines"><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
+        <div class="ph ph-block short"></div>
+        <div class="ph ph-block tall"></div>
+        <div class="ph-lines"><div class="ph-line w60"></div><div class="ph-line w80"></div></div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
-// ─── Timestamped transcript data ───
-// Each segment: start/end in seconds, cleaned text
+// ─── Transcript data ───
 const TRANSCRIPT = [
   { start: 0.0,  end: 5.5,  text: "Hi, I'm Christian Sanz, Founder and CEO of USAvionix." },
   { start: 5.5,  end: 12.0, text: "For nearly two decades, I've been building companies in core technologies around drones, robotics, and 3D sensing." },
@@ -474,193 +714,313 @@ const TRANSCRIPT = [
   { start: 252.0, end: 256.0, text: "That's the mission behind USAvionix \u2014 and we're just getting started." }
 ];
 
-// ─── Audio + Web Audio API setup ───
+// ─── Shared audio engine ───
+// Single audio element, single AudioContext, three analysers (one per variation)
 const audio = new Audio('final-audio.mp3');
 audio.preload = 'auto';
-let audioCtx, analyser, source, dataArray;
-let isPlaying = false;
+let audioCtx, sourceNode;
+const analysers = {};   // { a: AnalyserNode, b: ..., c: ... }
+const dataArrays = {};
+let activeVar = null;   // which variation is currently playing
 let ccVisible = true;
 
-// Initialize Web Audio API (on first user interaction)
 function initAudio() {
   if (audioCtx) return;
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  sourceNode = audioCtx.createMediaElementSource(audio);
 
-  // AnalyserNode for FFT data
-  analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 128;           // 64 frequency bins
-  analyser.smoothingTimeConstant = 0.8;
-  dataArray = new Uint8Array(analyser.frequencyBinCount);
+  // Create an analyser for each variation and connect in parallel
+  ['a', 'b', 'c'].forEach(v => {
+    const an = audioCtx.createAnalyser();
+    an.fftSize = 128;
+    an.smoothingTimeConstant = 0.78;
+    analysers[v] = an;
+    dataArrays[v] = new Uint8Array(an.frequencyBinCount);
+    sourceNode.connect(an);
+  });
 
-  // Connect audio element → analyser → speakers
-  source = audioCtx.createMediaElementSource(audio);
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
+  // Connect to speakers via one path
+  sourceNode.connect(audioCtx.destination);
 }
 
-// ─── Play / Pause ───
-function togglePlay() {
-  initAudio();
-  if (isPlaying) {
-    audio.pause();
-    isPlaying = false;
-    document.getElementById('audioModule').classList.remove('playing');
-  } else {
-    audio.play();
-    isPlaying = true;
-    document.getElementById('audioModule').classList.add('playing');
-    renderFFT();
-  }
-}
-
-// ─── CC Toggle ───
-function toggleCC() {
-  ccVisible = !ccVisible;
-  const el = document.getElementById('transcript');
-  const toggle = document.getElementById('ccToggle');
-  const label = document.getElementById('ccLabel');
-  if (ccVisible) {
-    el.classList.remove('hidden');
-    toggle.classList.add('active');
-    label.textContent = 'CC ON';
-  } else {
-    el.classList.add('hidden');
-    toggle.classList.remove('active');
-    label.textContent = 'CC OFF';
-  }
-}
-
-// ─── FFT rendering (canvas) ───
-const canvas = document.getElementById('fft-canvas');
-const ctx = canvas.getContext('2d');
-
-function resizeCanvas() {
-  const container = document.getElementById('fftContainer');
-  canvas.width = container.offsetWidth * window.devicePixelRatio;
-  canvas.height = container.offsetHeight * window.devicePixelRatio;
-  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-function renderFFT() {
-  if (!isPlaying) {
-    // Draw idle state — flat low bars
-    drawBars(null);
-    return;
-  }
-  requestAnimationFrame(renderFFT);
-  analyser.getByteFrequencyData(dataArray);
-  drawBars(dataArray);
-}
-
-function drawBars(data) {
-  const w = canvas.width / window.devicePixelRatio;
-  const h = canvas.height / window.devicePixelRatio;
-  ctx.clearRect(0, 0, w, h);
-
-  const barCount = 48;
-  const gap = 2;
-  const barWidth = (w - (barCount - 1) * gap) / barCount;
-  const minHeight = 2;
-
-  for (let i = 0; i < barCount; i++) {
-    let value;
-    if (data) {
-      // Map bar index to frequency bin (skip very low freqs)
-      const binIndex = Math.floor((i / barCount) * (data.length * 0.8)) + 2;
-      value = data[Math.min(binIndex, data.length - 1)] / 255;
-    } else {
-      value = 0.05;
-    }
-
-    const barHeight = Math.max(minHeight, value * h * 0.85);
-    const x = i * (barWidth + gap);
-    const y = (h - barHeight) / 2;
-
-    // White/gray bars with intensity-based opacity
-    const alpha = 0.15 + value * 0.65;
-    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-    ctx.fillRect(x, y, barWidth, barHeight);
-  }
-}
-
-// Draw idle bars on load
-drawBars(null);
-
-// ─── Scrub (click progress bar or FFT) ───
-function scrub(e) {
-  initAudio();
-  const rect = e.currentTarget.getBoundingClientRect();
-  const pct = (e.clientX - rect.left) / rect.width;
-  audio.currentTime = pct * audio.duration;
-  if (!isPlaying) togglePlay();
-}
-
-document.getElementById('fftContainer').addEventListener('click', scrub);
-
-// ─── Progress + time update ───
 function formatTime(s) {
+  if (!s || isNaN(s)) return '0:00';
   const m = Math.floor(s / 60);
   const sec = Math.floor(s % 60);
   return `${m}:${sec.toString().padStart(2, '0')}`;
 }
 
+// ─── Play / Pause per variation ───
+function toggleVar(v) {
+  initAudio();
+  if (activeVar === v) {
+    // Pause
+    audio.pause();
+    document.getElementById('mod' + v.toUpperCase()).classList.remove('playing');
+    activeVar = null;
+  } else {
+    // Switch to this variation (pause previous if any)
+    if (activeVar) {
+      document.getElementById('mod' + activeVar.toUpperCase()).classList.remove('playing');
+    }
+    activeVar = v;
+    document.getElementById('mod' + v.toUpperCase()).classList.add('playing');
+    audio.play();
+    renderLoop();
+  }
+}
+
+// ─── CC Toggle ───
+document.getElementById('ccToggle').addEventListener('click', () => {
+  ccVisible = !ccVisible;
+  document.querySelectorAll('.transcript').forEach(el => {
+    el.classList.toggle('hidden', !ccVisible);
+  });
+  const toggle = document.getElementById('ccToggle');
+  const label = document.getElementById('ccLabel');
+  toggle.classList.toggle('active', ccVisible);
+  label.textContent = ccVisible ? 'CC ON' : 'CC OFF';
+});
+
+// ─── Scrub ───
+function scrubTo(e, v) {
+  initAudio();
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  audio.currentTime = pct * (audio.duration || 251);
+  if (activeVar !== v) toggleVar(v);
+}
+
+// ─── VARIATION A: FFT bars with progress dimming ───
+const canvasA = document.querySelector('#fftA canvas');
+const ctxA = canvasA.getContext('2d');
+
+function resizeCanvasA() {
+  const c = document.getElementById('fftA');
+  canvasA.width = c.offsetWidth * devicePixelRatio;
+  canvasA.height = c.offsetHeight * devicePixelRatio;
+}
+
+function drawA() {
+  const w = canvasA.width / devicePixelRatio;
+  const h = canvasA.height / devicePixelRatio;
+  ctxA.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  ctxA.clearRect(0, 0, w, h);
+
+  const bars = 40;
+  const gap = 2;
+  const bw = (w - (bars - 1) * gap) / bars;
+  const pct = audio.duration ? audio.currentTime / audio.duration : 0;
+  const data = dataArrays.a;
+  if (activeVar) analysers.a.getByteFrequencyData(data);
+
+  for (let i = 0; i < bars; i++) {
+    const pos = i / bars;
+    let val;
+    if (activeVar) {
+      const bin = Math.floor((i / bars) * (data.length * 0.8)) + 2;
+      val = data[Math.min(bin, data.length - 1)] / 255;
+    } else {
+      val = 0.06;
+    }
+    const bh = Math.max(2, val * h * 0.85);
+    const x = i * (bw + gap);
+    const y = (h - bh) / 2;
+
+    // Played portion brighter, unplayed dimmer
+    const played = pos <= pct;
+    const alpha = played ? (0.25 + val * 0.6) : (0.08 + val * 0.2);
+    ctxA.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctxA.fillRect(x, y, bw, bh);
+  }
+}
+
+document.getElementById('fftA').addEventListener('click', e => scrubTo(e, 'a'));
+
+// ─── VARIATION B: Radial FFT ring ───
+const canvasB = document.getElementById('canvasB');
+const ctxB = canvasB.getContext('2d');
+
+function resizeCanvasB() {
+  const wrap = canvasB.parentElement;
+  canvasB.width = wrap.offsetWidth * devicePixelRatio;
+  canvasB.height = wrap.offsetHeight * devicePixelRatio;
+}
+
+function drawB() {
+  const size = canvasB.width / devicePixelRatio;
+  ctxB.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  ctxB.clearRect(0, 0, size, size);
+
+  const cx = size / 2;
+  const cy = size / 2;
+  const innerR = 28;
+  const maxR = size / 2 - 2;
+  const segments = 48;
+  const data = dataArrays.b;
+  if (activeVar) analysers.b.getByteFrequencyData(data);
+
+  for (let i = 0; i < segments; i++) {
+    const angle = (i / segments) * Math.PI * 2 - Math.PI / 2;
+    const nextAngle = ((i + 1) / segments) * Math.PI * 2 - Math.PI / 2;
+    let val;
+    if (activeVar) {
+      const bin = Math.floor((i / segments) * (data.length * 0.75)) + 2;
+      val = data[Math.min(bin, data.length - 1)] / 255;
+    } else {
+      val = 0.08;
+    }
+    const r = innerR + val * (maxR - innerR);
+    const alpha = 0.1 + val * 0.5;
+
+    ctxB.beginPath();
+    ctxB.arc(cx, cy, innerR, angle, nextAngle);
+    ctxB.arc(cx, cy, r, nextAngle, angle, true);
+    ctxB.closePath();
+    ctxB.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctxB.fill();
+  }
+}
+
+document.querySelector('.radial-wrap[data-var="b"]').addEventListener('click', () => toggleVar('b'));
+document.querySelector('[data-scrub="b"]').addEventListener('click', e => scrubTo(e, 'b'));
+
+// ─── VARIATION C: Waveform with playhead ───
+const canvasC = document.querySelector('#waveC canvas');
+const ctxC = canvasC.getContext('2d');
+
+function resizeCanvasC() {
+  const c = document.getElementById('waveC');
+  canvasC.width = c.offsetWidth * devicePixelRatio;
+  canvasC.height = c.offsetHeight * devicePixelRatio;
+}
+
+function drawC() {
+  const w = canvasC.width / devicePixelRatio;
+  const h = canvasC.height / devicePixelRatio;
+  ctxC.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  ctxC.clearRect(0, 0, w, h);
+
+  const bars = 56;
+  const gap = 1.5;
+  const bw = (w - (bars - 1) * gap) / bars;
+  const pct = audio.duration ? audio.currentTime / audio.duration : 0;
+  const data = dataArrays.c;
+  if (activeVar) analysers.c.getByteFrequencyData(data);
+
+  for (let i = 0; i < bars; i++) {
+    const pos = i / bars;
+    let val;
+    if (activeVar) {
+      const bin = Math.floor((i / bars) * (data.length * 0.8)) + 2;
+      val = data[Math.min(bin, data.length - 1)] / 255;
+    } else {
+      val = 0.06;
+    }
+    // Mirrored bars (top + bottom from center)
+    const bh = Math.max(1.5, val * h * 0.42);
+    const x = i * (bw + gap);
+    const yTop = h / 2 - bh;
+    const totalH = bh * 2;
+
+    const played = pos <= pct;
+    const alpha = played ? (0.3 + val * 0.55) : (0.06 + val * 0.15);
+    ctxC.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctxC.fillRect(x, yTop, bw, totalH);
+  }
+
+  // Update playhead position
+  document.querySelector('[data-playhead-c]').style.left = (pct * 100) + '%';
+}
+
+document.getElementById('waveC').addEventListener('click', e => scrubTo(e, 'c'));
+
+// ─── Render loop ───
+function renderLoop() {
+  drawA();
+  drawB();
+  drawC();
+  if (activeVar) requestAnimationFrame(renderLoop);
+}
+
+// ─── Resize all canvases ───
+function resizeAll() { resizeCanvasA(); resizeCanvasB(); resizeCanvasC(); drawA(); drawB(); drawC(); }
+window.addEventListener('resize', resizeAll);
+setTimeout(resizeAll, 50);
+
+// ─── Wire play buttons ───
+document.querySelector('[data-var="a"]').addEventListener('click', () => toggleVar('a'));
+document.querySelector('[data-var="c"]').addEventListener('click', () => toggleVar('c'));
+
+// ─── Audio time update → sync all UI ───
 audio.addEventListener('timeupdate', () => {
-  const pct = (audio.currentTime / audio.duration) * 100;
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('timeCurrent').textContent = formatTime(audio.currentTime);
-  updateTranscript(audio.currentTime);
+  const t = audio.currentTime;
+  const d = audio.duration || 251;
+  const pct = (t / d) * 100;
+
+  // A: time label
+  document.querySelector('[data-time-a]').textContent = `${formatTime(t)} / ${formatTime(d)}`;
+
+  // B: progress bar + time
+  document.querySelector('[data-fill-b]').style.width = pct + '%';
+  document.querySelector('[data-time-b-cur]').textContent = formatTime(t);
+
+  // C: time labels (playhead updated in drawC)
+  document.querySelector('[data-time-c-cur]').textContent = formatTime(t);
+
+  // Transcripts
+  updateTranscripts(t);
 });
 
 audio.addEventListener('loadedmetadata', () => {
-  document.getElementById('timeTotal').textContent = formatTime(audio.duration);
+  const d = formatTime(audio.duration);
+  document.querySelector('[data-time-a]').textContent = `0:00 / ${d}`;
+  document.querySelector('[data-time-b-tot]').textContent = d;
+  document.querySelector('[data-time-c-tot]').textContent = d;
 });
 
 audio.addEventListener('ended', () => {
-  isPlaying = false;
-  document.getElementById('audioModule').classList.remove('playing');
-  drawBars(null);
+  if (activeVar) {
+    document.getElementById('mod' + activeVar.toUpperCase()).classList.remove('playing');
+  }
+  activeVar = null;
+  drawA(); drawB(); drawC();
 });
 
-// ─── Transcript rendering + syncing ───
-const transcriptEl = document.getElementById('transcript');
-
-// Build transcript DOM
-TRANSCRIPT.forEach((seg, i) => {
-  const div = document.createElement('div');
-  div.className = 'transcript-line';
-  div.textContent = seg.text;
-  div.dataset.index = i;
-  // Click to seek
-  div.addEventListener('click', () => {
-    initAudio();
-    audio.currentTime = seg.start;
-    if (!isPlaying) togglePlay();
+// ─── Transcript rendering ───
+['a', 'b', 'c'].forEach(v => {
+  const el = document.querySelector(`[data-transcript="${v}"]`);
+  TRANSCRIPT.forEach((seg, i) => {
+    const div = document.createElement('div');
+    div.className = 'transcript-line';
+    div.textContent = seg.text;
+    div.addEventListener('click', () => {
+      initAudio();
+      audio.currentTime = seg.start;
+      if (activeVar !== v) toggleVar(v);
+    });
+    el.appendChild(div);
   });
-  transcriptEl.appendChild(div);
 });
 
-function updateTranscript(time) {
-  const lines = transcriptEl.querySelectorAll('.transcript-line');
+function updateTranscripts(time) {
   let activeIndex = -1;
-
   TRANSCRIPT.forEach((seg, i) => {
     if (time >= seg.start && time < seg.end) activeIndex = i;
   });
 
-  lines.forEach((line, i) => {
-    line.classList.remove('active', 'past');
-    if (i === activeIndex) {
-      line.classList.add('active');
-      // Auto-scroll to keep active line visible
-      const container = transcriptEl;
-      const lineTop = line.offsetTop - container.offsetTop;
-      const scrollTarget = lineTop - container.clientHeight / 3;
-      container.scrollTo({ top: scrollTarget, behavior: 'smooth' });
-    } else if (i < activeIndex) {
-      line.classList.add('past');
-    }
+  document.querySelectorAll('.transcript').forEach(container => {
+    const lines = container.querySelectorAll('.transcript-line');
+    lines.forEach((line, i) => {
+      line.classList.remove('active', 'past');
+      if (i === activeIndex) {
+        line.classList.add('active');
+        const lineTop = line.offsetTop - container.offsetTop;
+        container.scrollTo({ top: lineTop - container.clientHeight / 3, behavior: 'smooth' });
+      } else if (i < activeIndex) {
+        line.classList.add('past');
+      }
+    });
   });
 }
 </script>
