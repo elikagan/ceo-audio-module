@@ -483,6 +483,10 @@ audio.addEventListener('ended', () => {
 
 // ─── Transcript ───
 const transcriptEl = document.getElementById('transcript');
+let scrollTarget = 0;  // target scroll position
+let scrollCurrent = 0; // current interpolated scroll position
+let scrollRAF = null;
+
 TRANSCRIPT.forEach((seg) => {
   const div = document.createElement('div');
   div.className = 'transcript-line';
@@ -495,6 +499,20 @@ TRANSCRIPT.forEach((seg) => {
   transcriptEl.appendChild(div);
 });
 
+// Smooth scroll interpolation — eases toward target every frame
+function smoothScroll() {
+  const diff = scrollTarget - scrollCurrent;
+  if (Math.abs(diff) < 0.5) {
+    scrollCurrent = scrollTarget;
+  } else {
+    scrollCurrent += diff * 0.08; // ease factor — lower = smoother/slower
+  }
+  transcriptEl.scrollTop = scrollCurrent;
+  scrollRAF = requestAnimationFrame(smoothScroll);
+}
+// Start the scroll loop
+scrollRAF = requestAnimationFrame(smoothScroll);
+
 function updateTranscript(time) {
   const lines = transcriptEl.querySelectorAll('.transcript-line');
   let activeIndex = -1;
@@ -503,8 +521,10 @@ function updateTranscript(time) {
     line.classList.remove('active', 'past');
     if (i === activeIndex) {
       line.classList.add('active');
+      // Pin active line ~15% from top of container, so upcoming lines are visible below
       const lineTop = line.offsetTop - transcriptEl.offsetTop;
-      transcriptEl.scrollTo({ top: lineTop - transcriptEl.clientHeight / 3, behavior: 'smooth' });
+      scrollTarget = lineTop - transcriptEl.clientHeight * 0.15;
+      scrollTarget = Math.max(0, scrollTarget);
     } else if (i < activeIndex) {
       line.classList.add('past');
     }
