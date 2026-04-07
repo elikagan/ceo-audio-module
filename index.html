@@ -279,8 +279,8 @@
 
   /* ══════════════════════════════════════════════
      VARIATION B — "Pulse"
-     Centered card. Oscilloscope waveform line.
-     CC: single-line ticker (shows current sentence only)
+     Centered card. No visualizer — clean podcast style.
+     Headshot pulses when playing. Progress bar + ticker CC.
      ══════════════════════════════════════════════ */
   .mod-b {
     margin: 14px 0;
@@ -330,6 +330,24 @@
   .mod-b.playing .avatar-center .ico-play { display: none; }
   .mod-b.playing .avatar-center .ico-pause { display: block; }
 
+  /* Pulse ring animation when playing */
+  .mod-b .avatar-center::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    transition: all 0.4s;
+  }
+  .mod-b.playing .avatar-center::after {
+    border-color: #555;
+    animation: pulse-b 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse-b {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.08); }
+  }
+
   .mod-b .mod-name {
     font-size: 13px;
     font-weight: 500;
@@ -341,19 +359,6 @@
     color: #666;
     margin-top: 3px;
     line-height: 1.4;
-  }
-
-  /* Oscilloscope waveform */
-  .mod-b .scope-wrap {
-    height: 32px;
-    margin: 10px 0 6px;
-    cursor: pointer;
-    position: relative;
-  }
-  .mod-b .scope-wrap canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
   }
 
   /* Progress bar B */
@@ -603,9 +608,6 @@
           </div>
           <div class="mod-name">Christian Sanz</div>
           <div class="mod-role">Founder & CEO</div>
-          <div class="scope-wrap" id="scopeB">
-            <canvas></canvas>
-          </div>
           <div class="prog-row">
             <span class="prog-time" data-time-b-cur>0:00</span>
             <div class="prog-track" data-scrub="b">
@@ -724,12 +726,12 @@ function initAudio() {
   if (audioCtx) return;
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   sourceNode = audioCtx.createMediaElementSource(audio);
-  ['a', 'b', 'c'].forEach(v => {
+  ['a', 'c'].forEach(v => {
     const an = audioCtx.createAnalyser();
-    an.fftSize = v === 'b' ? 256 : 128; // B needs time-domain data, more samples
+    an.fftSize = 128;
     an.smoothingTimeConstant = 0.78;
     analysers[v] = an;
-    dataArrays[v] = new Uint8Array(an.fftSize);
+    dataArrays[v] = new Uint8Array(an.frequencyBinCount);
     sourceNode.connect(an);
   });
   sourceNode.connect(audioCtx.destination);
@@ -813,51 +815,6 @@ function drawA() {
 }
 document.getElementById('fftA').addEventListener('click', e => scrubTo(e, 'a'));
 
-// ─── B: Oscilloscope waveform line ───
-const canvasB = document.querySelector('#scopeB canvas');
-const ctxB = canvasB.getContext('2d');
-
-function resizeCanvasB() {
-  const c = document.getElementById('scopeB');
-  canvasB.width = c.offsetWidth * devicePixelRatio;
-  canvasB.height = c.offsetHeight * devicePixelRatio;
-}
-
-function drawB() {
-  const w = canvasB.width / devicePixelRatio;
-  const h = canvasB.height / devicePixelRatio;
-  ctxB.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-  ctxB.clearRect(0, 0, w, h);
-
-  const data = dataArrays.b;
-  if (activeVar) {
-    // Time-domain waveform data for oscilloscope
-    analysers.b.getByteTimeDomainData(data);
-  }
-
-  ctxB.beginPath();
-  ctxB.strokeStyle = activeVar ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.15)';
-  ctxB.lineWidth = 1.5;
-
-  const sliceWidth = w / data.length;
-  for (let i = 0; i < data.length; i++) {
-    const val = activeVar ? data[i] / 128.0 : 1.0; // 1.0 = center line when idle
-    const y = (val * h) / 2;
-    if (i === 0) ctxB.moveTo(0, y);
-    else ctxB.lineTo(i * sliceWidth, y);
-  }
-  ctxB.stroke();
-
-  // Draw center reference line (very subtle)
-  ctxB.beginPath();
-  ctxB.strokeStyle = 'rgba(255,255,255,0.06)';
-  ctxB.lineWidth = 1;
-  ctxB.moveTo(0, h / 2);
-  ctxB.lineTo(w, h / 2);
-  ctxB.stroke();
-}
-document.getElementById('scopeB').addEventListener('click', e => scrubTo(e, 'b'));
-
 // ─── C: Mirrored waveform bars with playhead ───
 const canvasC = document.querySelector('#waveC canvas');
 const ctxC = canvasC.getContext('2d');
@@ -898,11 +855,11 @@ document.getElementById('waveC').addEventListener('click', e => scrubTo(e, 'c'))
 
 // ─── Render loop ───
 function renderLoop() {
-  drawA(); drawB(); drawC();
+  drawA(); drawC();
   if (activeVar) requestAnimationFrame(renderLoop);
 }
 
-function resizeAll() { resizeCanvasA(); resizeCanvasB(); resizeCanvasC(); drawA(); drawB(); drawC(); }
+function resizeAll() { resizeCanvasA(); resizeCanvasC(); drawA(); drawC(); }
 window.addEventListener('resize', resizeAll);
 setTimeout(resizeAll, 50);
 
@@ -936,7 +893,7 @@ audio.addEventListener('loadedmetadata', () => {
 audio.addEventListener('ended', () => {
   if (activeVar) document.getElementById('mod' + activeVar.toUpperCase()).classList.remove('playing');
   activeVar = null;
-  drawA(); drawB(); drawC();
+  drawA(); drawC();
 });
 
 // ─── CC: A = scrolling list, B = ticker, C = overlay ───
