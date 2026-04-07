@@ -27,7 +27,7 @@
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #444;
+    color: #555;
   }
 
   /* CC toggle */
@@ -43,11 +43,11 @@
     user-select: none;
     font-size: 12px;
     font-weight: 500;
-    color: #555;
+    color: #666;
     letter-spacing: 0.03em;
     transition: color 0.2s;
   }
-  .cc-toggle:hover { color: #999; }
+  .cc-toggle:hover { color: #aaa; }
   .cc-toggle.active { color: #fff; }
   .cc-toggle svg { width: 16px; height: 16px; }
 
@@ -71,7 +71,6 @@
     }
   }
 
-  /* ── Variation container ── */
   .variation {
     display: flex;
     flex-direction: column;
@@ -82,16 +81,16 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #333;
+    color: #444;
     margin-bottom: 16px;
   }
 
-  /* ── iPhone shell (shared) ── */
+  /* ── iPhone shell ── */
   .phone {
     width: 100%;
     max-width: 340px;
     aspect-ratio: 9 / 19.5;
-    border: 1.5px solid #2a2a2a;
+    border: 1.5px solid #333;
     border-radius: 40px;
     background: #000;
     position: relative;
@@ -107,9 +106,9 @@
     height: 24px;
     background: #000;
     border-radius: 0 0 16px 16px;
-    border-bottom: 1px solid #1e1e1e;
-    border-left: 1px solid #1e1e1e;
-    border-right: 1px solid #1e1e1e;
+    border-bottom: 1px solid #282828;
+    border-left: 1px solid #282828;
+    border-right: 1px solid #282828;
     z-index: 10;
   }
   .phone::after {
@@ -134,14 +133,14 @@
   }
   .screen::-webkit-scrollbar { display: none; }
 
-  /* ── Placeholder blocks ── */
-  .ph { background: #141414; border-radius: 4px; width: 100%; }
+  /* ── Placeholder blocks (bumped gray) ── */
+  .ph { background: #1c1c1c; border-radius: 4px; width: 100%; }
   .ph-header { height: 36px; margin-bottom: 12px; }
   .ph-block { height: 64px; margin-bottom: 10px; }
   .ph-block.tall { height: 96px; }
   .ph-block.short { height: 36px; }
   .ph-lines { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-  .ph-line { height: 2px; background: #141414; border-radius: 1px; }
+  .ph-line { height: 2px; background: #1c1c1c; border-radius: 1px; }
   .ph-line.w90 { width: 90%; }
   .ph-line.w80 { width: 80%; }
   .ph-line.w60 { width: 60%; }
@@ -149,20 +148,21 @@
 
   /* ══════════════════════════════════════════════
      VARIATION A — "Signal"
-     Inline horizontal: headshot-as-button | FFT-as-progress
-     Inspired by voice messages in messaging apps
+     Inline horizontal player. Headshot = play button.
+     FFT bars double as progress indicator.
+     CC: scrolling transcript list (classic approach)
      ══════════════════════════════════════════════ */
   .mod-a {
     margin: 14px 0;
     padding: 14px;
-    border: 1px solid #1e1e1e;
+    border: 1px solid #282828;
     border-radius: 10px;
-    background: #0a0a0a;
+    background: #0c0c0c;
   }
   .mod-a .mod-label {
     font-size: 10px;
     font-weight: 500;
-    color: #444;
+    color: #666;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     margin-bottom: 10px;
@@ -172,7 +172,6 @@
     align-items: center;
     gap: 10px;
   }
-  /* Headshot = play button */
   .mod-a .avatar-btn {
     width: 44px;
     height: 44px;
@@ -190,26 +189,24 @@
     border-radius: 50%;
     object-fit: cover;
     display: block;
-    transition: opacity 0.3s;
   }
   .mod-a .avatar-btn .av-overlay {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0,0,0,0.4);
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background 0.2s;
   }
-  .mod-a .avatar-btn:hover .av-overlay { background: rgba(0,0,0,0.3); }
+  .mod-a .avatar-btn:hover .av-overlay { background: rgba(0,0,0,0.25); }
   .mod-a .avatar-btn .av-overlay svg { width: 16px; height: 16px; fill: #fff; }
   .mod-a .avatar-btn .ico-pause { display: none; }
   .mod-a.playing .avatar-btn .ico-play { display: none; }
   .mod-a.playing .avatar-btn .ico-pause { display: block; }
-  .mod-a.playing .avatar-btn .av-overlay { background: rgba(0,0,0,0.25); }
+  .mod-a.playing .avatar-btn .av-overlay { background: rgba(0,0,0,0.2); }
 
-  /* Pulse ring on playing */
   .mod-a .avatar-btn::after {
     content: '';
     position: absolute;
@@ -219,7 +216,7 @@
     transition: all 0.4s;
   }
   .mod-a.playing .avatar-btn::after {
-    border-color: #333;
+    border-color: #444;
     animation: pulse-a 2s ease-in-out infinite;
   }
   @keyframes pulse-a {
@@ -227,7 +224,6 @@
     50% { opacity: 0.6; transform: scale(1.05); }
   }
 
-  /* FFT+Progress combined */
   .mod-a .fft-progress {
     flex: 1;
     height: 36px;
@@ -240,121 +236,124 @@
     display: block;
   }
 
-  /* Time + name row */
   .mod-a .meta-row {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-top: 6px;
+    margin-top: 8px;
   }
   .mod-a .meta-name {
     font-size: 11px;
     font-weight: 500;
-    color: #555;
+    color: #777;
   }
   .mod-a .meta-time {
     font-size: 10px;
-    color: #333;
+    color: #555;
     font-variant-numeric: tabular-nums;
   }
 
-  /* Transcript A */
+  /* CC-A: scrolling transcript list */
   .mod-a .transcript {
     max-height: 80px;
     overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    margin-top: 8px;
+    margin-top: 10px;
     transition: max-height 0.4s, opacity 0.4s;
   }
   .mod-a .transcript::-webkit-scrollbar { display: none; }
   .mod-a .transcript.hidden { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; }
   .mod-a .transcript-line {
     font-size: 11px;
-    line-height: 1.55;
-    color: #2a2a2a;
-    padding: 2px 0;
+    line-height: 1.6;
+    color: #3a3a3a;
+    padding: 3px 0;
     cursor: pointer;
     transition: color 0.3s;
   }
-  .mod-a .transcript-line:hover { color: #555; }
-  .mod-a .transcript-line.active { color: #bbb; }
-  .mod-a .transcript-line.past { color: #444; }
+  .mod-a .transcript-line:hover { color: #888; }
+  .mod-a .transcript-line.active { color: #ccc; }
+  .mod-a .transcript-line.past { color: #666; }
 
 
   /* ══════════════════════════════════════════════
      VARIATION B — "Pulse"
-     Centered card: radial FFT ring around headshot
-     Podcast-episode feel
+     Centered card. Oscilloscope waveform line.
+     CC: single-line ticker (shows current sentence only)
      ══════════════════════════════════════════════ */
   .mod-b {
     margin: 14px 0;
     padding: 16px 14px;
-    border: 1px solid #1e1e1e;
+    border: 1px solid #282828;
     border-radius: 10px;
-    background: #0a0a0a;
+    background: #0c0c0c;
     text-align: center;
   }
   .mod-b .mod-label {
     font-size: 10px;
     font-weight: 500;
-    color: #444;
+    color: #666;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     margin-bottom: 12px;
   }
 
-  /* Radial FFT container */
-  .mod-b .radial-wrap {
+  /* Headshot with play overlay */
+  .mod-b .avatar-center {
     position: relative;
-    width: 96px;
-    height: 96px;
+    width: 60px;
+    height: 60px;
     margin: 0 auto 10px;
     cursor: pointer;
   }
-  .mod-b .radial-wrap canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
-  .mod-b .radial-wrap img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 52px;
-    height: 52px;
+  .mod-b .avatar-center img {
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    z-index: 2;
+    display: block;
   }
-  .mod-b .radial-wrap .play-ring {
+  .mod-b .avatar-center .av-overlay {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    z-index: 3;
+    background: rgba(0,0,0,0.35);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: background 0.2s;
   }
-  .mod-b .radial-wrap .play-ring:hover { background: rgba(0,0,0,0.15); }
-  .mod-b .radial-wrap .play-ring svg { width: 20px; height: 20px; fill: rgba(255,255,255,0.8); filter: drop-shadow(0 1px 3px rgba(0,0,0,0.7)); }
-  .mod-b .radial-wrap .play-ring .ico-pause { display: none; }
-  .mod-b.playing .radial-wrap .play-ring .ico-play { display: none; }
-  .mod-b.playing .radial-wrap .play-ring .ico-pause { display: block; }
+  .mod-b .avatar-center:hover .av-overlay { background: rgba(0,0,0,0.2); }
+  .mod-b .avatar-center .av-overlay svg { width: 18px; height: 18px; fill: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5)); }
+  .mod-b .avatar-center .ico-pause { display: none; }
+  .mod-b.playing .avatar-center .ico-play { display: none; }
+  .mod-b.playing .avatar-center .ico-pause { display: block; }
 
   .mod-b .mod-name {
     font-size: 13px;
     font-weight: 500;
-    color: #ccc;
+    color: #ddd;
+    line-height: 1.4;
   }
   .mod-b .mod-role {
     font-size: 10px;
-    color: #444;
-    margin-top: 1px;
+    color: #666;
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+
+  /* Oscilloscope waveform */
+  .mod-b .scope-wrap {
+    height: 32px;
+    margin: 10px 0 6px;
+    cursor: pointer;
+    position: relative;
+  }
+  .mod-b .scope-wrap canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 
   /* Progress bar B */
@@ -362,11 +361,10 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-top: 10px;
   }
   .mod-b .prog-time {
     font-size: 9px;
-    color: #333;
+    color: #555;
     font-variant-numeric: tabular-nums;
     min-width: 28px;
   }
@@ -374,7 +372,7 @@
   .mod-b .prog-track {
     flex: 1;
     height: 2px;
-    background: #1a1a1a;
+    background: #222;
     border-radius: 1px;
     cursor: pointer;
     position: relative;
@@ -387,42 +385,39 @@
     transition: width 0.1s linear;
   }
 
-  /* Transcript B */
-  .mod-b .transcript {
-    max-height: 80px;
-    overflow-y: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  /* CC-B: single-line ticker — shows only the active sentence */
+  .mod-b .cc-ticker {
     margin-top: 10px;
-    text-align: left;
-    transition: max-height 0.4s, opacity 0.4s;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.4s, max-height 0.4s;
   }
-  .mod-b .transcript::-webkit-scrollbar { display: none; }
-  .mod-b .transcript.hidden { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; }
-  .mod-b .transcript-line {
+  .mod-b .cc-ticker.hidden { opacity: 0; max-height: 0; overflow: hidden; margin-top: 0; min-height: 0; }
+  .mod-b .cc-ticker-text {
     font-size: 11px;
     line-height: 1.55;
-    color: #2a2a2a;
-    padding: 2px 0;
+    color: #888;
+    text-align: center;
+    transition: opacity 0.3s;
     cursor: pointer;
-    transition: color 0.3s;
   }
-  .mod-b .transcript-line:hover { color: #555; }
-  .mod-b .transcript-line.active { color: #bbb; }
-  .mod-b .transcript-line.past { color: #444; }
+  .mod-b .cc-ticker-text:hover { color: #bbb; }
+  .mod-b .cc-ticker-text.empty { color: #444; font-style: italic; }
 
 
   /* ══════════════════════════════════════════════
      VARIATION C — "Wave"
-     Full-width waveform hero, headshot tucked top-left
-     SoundCloud-style, waveform IS the interface
+     Full-width waveform hero with playhead.
+     CC: floating overlay on top of waveform
      ══════════════════════════════════════════════ */
   .mod-c {
     margin: 14px 0;
     padding: 14px;
-    border: 1px solid #1e1e1e;
+    border: 1px solid #282828;
     border-radius: 10px;
-    background: #0a0a0a;
+    background: #0c0c0c;
   }
   .mod-c .top-row {
     display: flex;
@@ -443,22 +438,25 @@
   .mod-c .top-name {
     font-size: 11px;
     font-weight: 500;
-    color: #888;
+    color: #aaa;
+    line-height: 1.4;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .mod-c .top-label {
     font-size: 9px;
-    color: #333;
+    color: #555;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    line-height: 1.4;
+    margin-top: 1px;
   }
   .mod-c .play-sm {
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    border: 1px solid #2a2a2a;
+    border: 1px solid #3a3a3a;
     background: transparent;
     cursor: pointer;
     display: flex;
@@ -468,13 +466,16 @@
     transition: border-color 0.2s;
     padding: 0;
   }
-  .mod-c .play-sm:hover { border-color: #444; }
-  .mod-c .play-sm svg { width: 10px; height: 10px; fill: #999; }
+  .mod-c .play-sm:hover { border-color: #666; }
+  .mod-c .play-sm svg { width: 10px; height: 10px; fill: #aaa; }
   .mod-c .play-sm .ico-pause { display: none; }
   .mod-c.playing .play-sm .ico-play { display: none; }
   .mod-c.playing .play-sm .ico-pause { display: block; }
 
-  /* Waveform hero */
+  /* Waveform hero with CC overlay */
+  .mod-c .wave-wrap {
+    position: relative;
+  }
   .mod-c .wave-hero {
     position: relative;
     height: 56px;
@@ -485,7 +486,6 @@
     height: 100%;
     display: block;
   }
-  /* Playhead line */
   .mod-c .playhead {
     position: absolute;
     top: 0;
@@ -497,40 +497,35 @@
     pointer-events: none;
   }
 
-  /* Time row */
+  /* CC-C: floating overlay below waveform */
+  .mod-c .cc-overlay {
+    margin-top: 6px;
+    min-height: 20px;
+    transition: opacity 0.4s, max-height 0.4s;
+  }
+  .mod-c .cc-overlay.hidden { opacity: 0; max-height: 0; overflow: hidden; margin-top: 0; min-height: 0; }
+  .mod-c .cc-overlay-text {
+    font-size: 10px;
+    line-height: 1.5;
+    color: #999;
+    padding: 4px 6px;
+    background: #151515;
+    border-radius: 4px;
+    border-left: 2px solid #444;
+    transition: opacity 0.3s;
+  }
+  .mod-c .cc-overlay-text.empty { opacity: 0; }
+
   .mod-c .time-row {
     display: flex;
     justify-content: space-between;
-    margin-top: 4px;
+    margin-top: 6px;
   }
   .mod-c .time-row span {
     font-size: 9px;
-    color: #333;
+    color: #555;
     font-variant-numeric: tabular-nums;
   }
-
-  /* Transcript C */
-  .mod-c .transcript {
-    max-height: 80px;
-    overflow-y: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    margin-top: 8px;
-    transition: max-height 0.4s, opacity 0.4s;
-  }
-  .mod-c .transcript::-webkit-scrollbar { display: none; }
-  .mod-c .transcript.hidden { max-height: 0; opacity: 0; overflow: hidden; margin-top: 0; }
-  .mod-c .transcript-line {
-    font-size: 11px;
-    line-height: 1.55;
-    color: #2a2a2a;
-    padding: 2px 0;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-  .mod-c .transcript-line:hover { color: #555; }
-  .mod-c .transcript-line.active { color: #bbb; }
-  .mod-c .transcript-line.past { color: #444; }
 </style>
 </head>
 <body>
@@ -550,9 +545,7 @@
 
 <div class="variations">
 
-  <!-- ════════════════════════════════════════ -->
-  <!-- VARIATION A — "Signal" (inline/horizontal) -->
-  <!-- ════════════════════════════════════════ -->
+  <!-- ═══ A — Signal ═══ -->
   <div class="variation">
     <div class="var-label">A — Signal</div>
     <div class="phone">
@@ -590,9 +583,7 @@
     </div>
   </div>
 
-  <!-- ════════════════════════════════════════ -->
-  <!-- VARIATION B — "Pulse" (centered radial) -->
-  <!-- ════════════════════════════════════════ -->
+  <!-- ═══ B — Pulse ═══ -->
   <div class="variation">
     <div class="var-label">B — Pulse</div>
     <div class="phone">
@@ -603,16 +594,18 @@
 
         <div class="mod-b" id="modB">
           <div class="mod-label">Our Mission</div>
-          <div class="radial-wrap" data-var="b">
-            <canvas id="canvasB"></canvas>
+          <div class="avatar-center" data-var="b">
             <img src="CS_headshot_400x400.png" alt="CS">
-            <div class="play-ring">
+            <div class="av-overlay">
               <svg class="ico-play" viewBox="0 0 24 24"><polygon points="8,4 20,12 8,20"/></svg>
               <svg class="ico-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="3.5" height="16"/><rect x="14.5" y="4" width="3.5" height="16"/></svg>
             </div>
           </div>
           <div class="mod-name">Christian Sanz</div>
           <div class="mod-role">Founder & CEO</div>
+          <div class="scope-wrap" id="scopeB">
+            <canvas></canvas>
+          </div>
           <div class="prog-row">
             <span class="prog-time" data-time-b-cur>0:00</span>
             <div class="prog-track" data-scrub="b">
@@ -620,7 +613,9 @@
             </div>
             <span class="prog-time right" data-time-b-tot>4:11</span>
           </div>
-          <div class="transcript" data-transcript="b"></div>
+          <div class="cc-ticker" data-cc="b">
+            <div class="cc-ticker-text empty">Press play to listen</div>
+          </div>
         </div>
 
         <div class="ph-lines"><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
@@ -631,9 +626,7 @@
     </div>
   </div>
 
-  <!-- ════════════════════════════════════════ -->
-  <!-- VARIATION C — "Wave" (waveform hero)    -->
-  <!-- ════════════════════════════════════════ -->
+  <!-- ═══ C — Wave ═══ -->
   <div class="variation">
     <div class="var-label">C — Wave</div>
     <div class="phone">
@@ -654,15 +647,19 @@
               <svg class="ico-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="3.5" height="16"/><rect x="14.5" y="4" width="3.5" height="16"/></svg>
             </button>
           </div>
-          <div class="wave-hero" id="waveC">
-            <canvas></canvas>
-            <div class="playhead" data-playhead-c></div>
+          <div class="wave-wrap">
+            <div class="wave-hero" id="waveC">
+              <canvas></canvas>
+              <div class="playhead" data-playhead-c></div>
+            </div>
+            <div class="cc-overlay" data-cc="c">
+              <div class="cc-overlay-text empty"></div>
+            </div>
           </div>
           <div class="time-row">
             <span data-time-c-cur>0:00</span>
             <span data-time-c-tot>4:11</span>
           </div>
-          <div class="transcript" data-transcript="c"></div>
         </div>
 
         <div class="ph-lines"><div class="ph-line w80"></div><div class="ph-line w60"></div></div>
@@ -696,12 +693,12 @@ const TRANSCRIPT = [
   { start: 106.0, end: 115.0, text: "Integrate the complex stacks, and assist in operating them in real time." },
   { start: 115.0, end: 125.0, text: "At USAvionix, AI is embedded across the entire platform. It helps define missions, coordinate the aircraft, interpret sensor data, and continuously improve how the system operates." },
   { start: 125.0, end: 132.0, text: "That shift is what makes true autonomy possible now." },
-  { start: 132.0, end: 140.0, text: "To make that possible, we're vertically integrating the entire system \u2014 the aircraft, the sensors, the onboard AI, the ground software, and the intelligence platform that connects everything together." },
-  { start: 140.0, end: 150.0, text: "The scale of what we're building is dramatically different than traditional systems. A human operator might analyze dozens of objects a minute." },
+  { start: 132.0, end: 140.0, text: "To make that possible, we\u2019re vertically integrating the entire system \u2014 the aircraft, the sensors, the onboard AI, the ground software, and the intelligence platform that connects everything together." },
+  { start: 140.0, end: 150.0, text: "The scale of what we\u2019re building is dramatically different than traditional systems. A human operator might analyze dozens of objects a minute." },
   { start: 150.0, end: 160.0, text: "Our architecture is designed to perform thousands of detections every second \u2014 continuously identifying vehicles, people, anomalies, and changes across very large areas." },
   { start: 160.0, end: 168.0, text: "That difference in scale changes what these systems can actually do." },
   { start: 168.0, end: 176.0, text: "Instead of watching a single location, they can monitor entire regions continuously and detect risk far earlier." },
-  { start: 176.0, end: 186.0, text: "The aircraft itself is also built for a completely different performance envelope. Most drones today operate at roughly 30 to 40 kilometers per hour and they're very limited in how much data they can collect." },
+  { start: 176.0, end: 186.0, text: "The aircraft itself is also built for a completely different performance envelope. Most drones today operate at roughly 30 to 40 kilometers per hour and they\u2019re very limited in how much data they can collect." },
   { start: 186.0, end: 196.0, text: "Our systems are being designed to operate at 400 to 500 kilometers per hour, allowing a single aircraft to cover extremely large operational areas." },
   { start: 196.0, end: 205.0, text: "Combined with advanced optical sensing and onboard intelligence, this creates a new category of aerial awareness." },
   { start: 205.0, end: 212.0, text: "The applications are incredibly important. Protecting critical infrastructure that our societies depend on every single day." },
@@ -711,58 +708,46 @@ const TRANSCRIPT = [
   { start: 232.0, end: 240.0, text: "As the world becomes more complex and interconnected, the challenges we face are evolving just as quickly." },
   { start: 240.0, end: 246.0, text: "We believe autonomous systems will become essential tools for keeping society safe, resilient, and prepared." },
   { start: 246.0, end: 252.0, text: "Our goal is very simple: build intelligent aerial systems that can observe the world at scale, detect problems earlier, and help people respond faster." },
-  { start: 252.0, end: 256.0, text: "That's the mission behind USAvionix \u2014 and we're just getting started." }
+  { start: 252.0, end: 256.0, text: "That\u2019s the mission behind USAvionix \u2014 and we\u2019re just getting started." }
 ];
 
 // ─── Shared audio engine ───
-// Single audio element, single AudioContext, three analysers (one per variation)
 const audio = new Audio('final-audio.mp3');
 audio.preload = 'auto';
 let audioCtx, sourceNode;
-const analysers = {};   // { a: AnalyserNode, b: ..., c: ... }
+const analysers = {};
 const dataArrays = {};
-let activeVar = null;   // which variation is currently playing
+let activeVar = null;
 let ccVisible = true;
 
 function initAudio() {
   if (audioCtx) return;
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   sourceNode = audioCtx.createMediaElementSource(audio);
-
-  // Create an analyser for each variation and connect in parallel
   ['a', 'b', 'c'].forEach(v => {
     const an = audioCtx.createAnalyser();
-    an.fftSize = 128;
+    an.fftSize = v === 'b' ? 256 : 128; // B needs time-domain data, more samples
     an.smoothingTimeConstant = 0.78;
     analysers[v] = an;
-    dataArrays[v] = new Uint8Array(an.frequencyBinCount);
+    dataArrays[v] = new Uint8Array(an.fftSize);
     sourceNode.connect(an);
   });
-
-  // Connect to speakers via one path
   sourceNode.connect(audioCtx.destination);
 }
 
 function formatTime(s) {
   if (!s || isNaN(s)) return '0:00';
-  const m = Math.floor(s / 60);
-  const sec = Math.floor(s % 60);
-  return `${m}:${sec.toString().padStart(2, '0')}`;
+  return `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
 }
 
-// ─── Play / Pause per variation ───
 function toggleVar(v) {
   initAudio();
   if (activeVar === v) {
-    // Pause
     audio.pause();
     document.getElementById('mod' + v.toUpperCase()).classList.remove('playing');
     activeVar = null;
   } else {
-    // Switch to this variation (pause previous if any)
-    if (activeVar) {
-      document.getElementById('mod' + activeVar.toUpperCase()).classList.remove('playing');
-    }
+    if (activeVar) document.getElementById('mod' + activeVar.toUpperCase()).classList.remove('playing');
     activeVar = v;
     document.getElementById('mod' + v.toUpperCase()).classList.add('playing');
     audio.play();
@@ -770,19 +755,20 @@ function toggleVar(v) {
   }
 }
 
-// ─── CC Toggle ───
+// CC Toggle
 document.getElementById('ccToggle').addEventListener('click', () => {
   ccVisible = !ccVisible;
-  document.querySelectorAll('.transcript').forEach(el => {
-    el.classList.toggle('hidden', !ccVisible);
-  });
+  // A: transcript list
+  document.querySelectorAll('.transcript').forEach(el => el.classList.toggle('hidden', !ccVisible));
+  // B: ticker
+  document.querySelectorAll('.cc-ticker').forEach(el => el.classList.toggle('hidden', !ccVisible));
+  // C: overlay
+  document.querySelectorAll('.cc-overlay').forEach(el => el.classList.toggle('hidden', !ccVisible));
   const toggle = document.getElementById('ccToggle');
-  const label = document.getElementById('ccLabel');
   toggle.classList.toggle('active', ccVisible);
-  label.textContent = ccVisible ? 'CC ON' : 'CC OFF';
+  document.getElementById('ccLabel').textContent = ccVisible ? 'CC ON' : 'CC OFF';
 });
 
-// ─── Scrub ───
 function scrubTo(e, v) {
   initAudio();
   const rect = e.currentTarget.getBoundingClientRect();
@@ -791,7 +777,7 @@ function scrubTo(e, v) {
   if (activeVar !== v) toggleVar(v);
 }
 
-// ─── VARIATION A: FFT bars with progress dimming ───
+// ─── A: FFT bars with played/unplayed dimming ───
 const canvasA = document.querySelector('#fftA canvas');
 const ctxA = canvasA.getContext('2d');
 
@@ -807,8 +793,7 @@ function drawA() {
   ctxA.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
   ctxA.clearRect(0, 0, w, h);
 
-  const bars = 40;
-  const gap = 2;
+  const bars = 40, gap = 2;
   const bw = (w - (bars - 1) * gap) / bars;
   const pct = audio.duration ? audio.currentTime / audio.duration : 0;
   const data = dataArrays.a;
@@ -816,76 +801,64 @@ function drawA() {
 
   for (let i = 0; i < bars; i++) {
     const pos = i / bars;
-    let val;
-    if (activeVar) {
-      const bin = Math.floor((i / bars) * (data.length * 0.8)) + 2;
-      val = data[Math.min(bin, data.length - 1)] / 255;
-    } else {
-      val = 0.06;
-    }
+    let val = activeVar ? data[Math.min(Math.floor((i / bars) * (data.length * 0.8)) + 2, data.length - 1)] / 255 : 0.08;
     const bh = Math.max(2, val * h * 0.85);
     const x = i * (bw + gap);
     const y = (h - bh) / 2;
-
-    // Played portion brighter, unplayed dimmer
     const played = pos <= pct;
-    const alpha = played ? (0.25 + val * 0.6) : (0.08 + val * 0.2);
+    const alpha = played ? (0.3 + val * 0.55) : (0.1 + val * 0.2);
     ctxA.fillStyle = `rgba(255,255,255,${alpha})`;
     ctxA.fillRect(x, y, bw, bh);
   }
 }
-
 document.getElementById('fftA').addEventListener('click', e => scrubTo(e, 'a'));
 
-// ─── VARIATION B: Radial FFT ring ───
-const canvasB = document.getElementById('canvasB');
+// ─── B: Oscilloscope waveform line ───
+const canvasB = document.querySelector('#scopeB canvas');
 const ctxB = canvasB.getContext('2d');
 
 function resizeCanvasB() {
-  const wrap = canvasB.parentElement;
-  canvasB.width = wrap.offsetWidth * devicePixelRatio;
-  canvasB.height = wrap.offsetHeight * devicePixelRatio;
+  const c = document.getElementById('scopeB');
+  canvasB.width = c.offsetWidth * devicePixelRatio;
+  canvasB.height = c.offsetHeight * devicePixelRatio;
 }
 
 function drawB() {
-  const size = canvasB.width / devicePixelRatio;
+  const w = canvasB.width / devicePixelRatio;
+  const h = canvasB.height / devicePixelRatio;
   ctxB.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-  ctxB.clearRect(0, 0, size, size);
+  ctxB.clearRect(0, 0, w, h);
 
-  const cx = size / 2;
-  const cy = size / 2;
-  const innerR = 28;
-  const maxR = size / 2 - 2;
-  const segments = 48;
   const data = dataArrays.b;
-  if (activeVar) analysers.b.getByteFrequencyData(data);
-
-  for (let i = 0; i < segments; i++) {
-    const angle = (i / segments) * Math.PI * 2 - Math.PI / 2;
-    const nextAngle = ((i + 1) / segments) * Math.PI * 2 - Math.PI / 2;
-    let val;
-    if (activeVar) {
-      const bin = Math.floor((i / segments) * (data.length * 0.75)) + 2;
-      val = data[Math.min(bin, data.length - 1)] / 255;
-    } else {
-      val = 0.08;
-    }
-    const r = innerR + val * (maxR - innerR);
-    const alpha = 0.1 + val * 0.5;
-
-    ctxB.beginPath();
-    ctxB.arc(cx, cy, innerR, angle, nextAngle);
-    ctxB.arc(cx, cy, r, nextAngle, angle, true);
-    ctxB.closePath();
-    ctxB.fillStyle = `rgba(255,255,255,${alpha})`;
-    ctxB.fill();
+  if (activeVar) {
+    // Time-domain waveform data for oscilloscope
+    analysers.b.getByteTimeDomainData(data);
   }
+
+  ctxB.beginPath();
+  ctxB.strokeStyle = activeVar ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.15)';
+  ctxB.lineWidth = 1.5;
+
+  const sliceWidth = w / data.length;
+  for (let i = 0; i < data.length; i++) {
+    const val = activeVar ? data[i] / 128.0 : 1.0; // 1.0 = center line when idle
+    const y = (val * h) / 2;
+    if (i === 0) ctxB.moveTo(0, y);
+    else ctxB.lineTo(i * sliceWidth, y);
+  }
+  ctxB.stroke();
+
+  // Draw center reference line (very subtle)
+  ctxB.beginPath();
+  ctxB.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctxB.lineWidth = 1;
+  ctxB.moveTo(0, h / 2);
+  ctxB.lineTo(w, h / 2);
+  ctxB.stroke();
 }
+document.getElementById('scopeB').addEventListener('click', e => scrubTo(e, 'b'));
 
-document.querySelector('.radial-wrap[data-var="b"]').addEventListener('click', () => toggleVar('b'));
-document.querySelector('[data-scrub="b"]').addEventListener('click', e => scrubTo(e, 'b'));
-
-// ─── VARIATION C: Waveform with playhead ───
+// ─── C: Mirrored waveform bars with playhead ───
 const canvasC = document.querySelector('#waveC canvas');
 const ctxC = canvasC.getContext('2d');
 
@@ -901,8 +874,7 @@ function drawC() {
   ctxC.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
   ctxC.clearRect(0, 0, w, h);
 
-  const bars = 56;
-  const gap = 1.5;
+  const bars = 56, gap = 1.5;
   const bw = (w - (bars - 1) * gap) / bars;
   const pct = audio.duration ? audio.currentTime / audio.duration : 0;
   const data = dataArrays.c;
@@ -910,66 +882,48 @@ function drawC() {
 
   for (let i = 0; i < bars; i++) {
     const pos = i / bars;
-    let val;
-    if (activeVar) {
-      const bin = Math.floor((i / bars) * (data.length * 0.8)) + 2;
-      val = data[Math.min(bin, data.length - 1)] / 255;
-    } else {
-      val = 0.06;
-    }
-    // Mirrored bars (top + bottom from center)
+    let val = activeVar ? data[Math.min(Math.floor((i / bars) * (data.length * 0.8)) + 2, data.length - 1)] / 255 : 0.08;
     const bh = Math.max(1.5, val * h * 0.42);
     const x = i * (bw + gap);
     const yTop = h / 2 - bh;
-    const totalH = bh * 2;
-
     const played = pos <= pct;
-    const alpha = played ? (0.3 + val * 0.55) : (0.06 + val * 0.15);
+    const alpha = played ? (0.35 + val * 0.5) : (0.08 + val * 0.18);
     ctxC.fillStyle = `rgba(255,255,255,${alpha})`;
-    ctxC.fillRect(x, yTop, bw, totalH);
+    ctxC.fillRect(x, yTop, bw, bh * 2);
   }
 
-  // Update playhead position
   document.querySelector('[data-playhead-c]').style.left = (pct * 100) + '%';
 }
-
 document.getElementById('waveC').addEventListener('click', e => scrubTo(e, 'c'));
 
 // ─── Render loop ───
 function renderLoop() {
-  drawA();
-  drawB();
-  drawC();
+  drawA(); drawB(); drawC();
   if (activeVar) requestAnimationFrame(renderLoop);
 }
 
-// ─── Resize all canvases ───
 function resizeAll() { resizeCanvasA(); resizeCanvasB(); resizeCanvasC(); drawA(); drawB(); drawC(); }
 window.addEventListener('resize', resizeAll);
 setTimeout(resizeAll, 50);
 
 // ─── Wire play buttons ───
 document.querySelector('[data-var="a"]').addEventListener('click', () => toggleVar('a'));
+document.querySelector('[data-var="b"]').addEventListener('click', () => toggleVar('b'));
 document.querySelector('[data-var="c"]').addEventListener('click', () => toggleVar('c'));
+document.querySelector('[data-scrub="b"]').addEventListener('click', e => scrubTo(e, 'b'));
 
-// ─── Audio time update → sync all UI ───
+// ─── Time updates ───
 audio.addEventListener('timeupdate', () => {
   const t = audio.currentTime;
   const d = audio.duration || 251;
   const pct = (t / d) * 100;
 
-  // A: time label
   document.querySelector('[data-time-a]').textContent = `${formatTime(t)} / ${formatTime(d)}`;
-
-  // B: progress bar + time
   document.querySelector('[data-fill-b]').style.width = pct + '%';
   document.querySelector('[data-time-b-cur]').textContent = formatTime(t);
-
-  // C: time labels (playhead updated in drawC)
   document.querySelector('[data-time-c-cur]').textContent = formatTime(t);
 
-  // Transcripts
-  updateTranscripts(t);
+  updateCC(t);
 });
 
 audio.addEventListener('loadedmetadata', () => {
@@ -980,48 +934,59 @@ audio.addEventListener('loadedmetadata', () => {
 });
 
 audio.addEventListener('ended', () => {
-  if (activeVar) {
-    document.getElementById('mod' + activeVar.toUpperCase()).classList.remove('playing');
-  }
+  if (activeVar) document.getElementById('mod' + activeVar.toUpperCase()).classList.remove('playing');
   activeVar = null;
   drawA(); drawB(); drawC();
 });
 
-// ─── Transcript rendering ───
-['a', 'b', 'c'].forEach(v => {
-  const el = document.querySelector(`[data-transcript="${v}"]`);
-  TRANSCRIPT.forEach((seg, i) => {
-    const div = document.createElement('div');
-    div.className = 'transcript-line';
-    div.textContent = seg.text;
-    div.addEventListener('click', () => {
-      initAudio();
-      audio.currentTime = seg.start;
-      if (activeVar !== v) toggleVar(v);
-    });
-    el.appendChild(div);
-  });
+// ─── CC: A = scrolling list, B = ticker, C = overlay ───
+
+// Build A transcript (scrolling list)
+const transcriptA = document.querySelector('[data-transcript="a"]');
+TRANSCRIPT.forEach((seg, i) => {
+  const div = document.createElement('div');
+  div.className = 'transcript-line';
+  div.textContent = seg.text;
+  div.addEventListener('click', () => { initAudio(); audio.currentTime = seg.start; if (activeVar !== 'a') toggleVar('a'); });
+  transcriptA.appendChild(div);
 });
 
-function updateTranscripts(time) {
+function updateCC(time) {
   let activeIndex = -1;
-  TRANSCRIPT.forEach((seg, i) => {
-    if (time >= seg.start && time < seg.end) activeIndex = i;
+  TRANSCRIPT.forEach((seg, i) => { if (time >= seg.start && time < seg.end) activeIndex = i; });
+
+  // A: scrolling list — highlight active, dim past
+  const lines = transcriptA.querySelectorAll('.transcript-line');
+  lines.forEach((line, i) => {
+    line.classList.remove('active', 'past');
+    if (i === activeIndex) {
+      line.classList.add('active');
+      const lineTop = line.offsetTop - transcriptA.offsetTop;
+      transcriptA.scrollTo({ top: lineTop - transcriptA.clientHeight / 3, behavior: 'smooth' });
+    } else if (i < activeIndex) {
+      line.classList.add('past');
+    }
   });
 
-  document.querySelectorAll('.transcript').forEach(container => {
-    const lines = container.querySelectorAll('.transcript-line');
-    lines.forEach((line, i) => {
-      line.classList.remove('active', 'past');
-      if (i === activeIndex) {
-        line.classList.add('active');
-        const lineTop = line.offsetTop - container.offsetTop;
-        container.scrollTo({ top: lineTop - container.clientHeight / 3, behavior: 'smooth' });
-      } else if (i < activeIndex) {
-        line.classList.add('past');
-      }
-    });
-  });
+  // B: single-line ticker — show only current sentence
+  const tickerText = document.querySelector('.cc-ticker-text');
+  if (activeIndex >= 0) {
+    tickerText.textContent = TRANSCRIPT[activeIndex].text;
+    tickerText.classList.remove('empty');
+  } else {
+    tickerText.textContent = activeVar ? '' : 'Press play to listen';
+    tickerText.classList.toggle('empty', !activeVar);
+  }
+
+  // C: floating overlay — show current sentence with left border accent
+  const overlayText = document.querySelector('.cc-overlay-text');
+  if (activeIndex >= 0) {
+    overlayText.textContent = TRANSCRIPT[activeIndex].text;
+    overlayText.classList.remove('empty');
+  } else {
+    overlayText.textContent = '';
+    overlayText.classList.add('empty');
+  }
 }
 </script>
 </body>
