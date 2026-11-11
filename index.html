@@ -298,7 +298,7 @@
       </div>
       <div class="meta-row">
         <span class="meta-name">Christian Sanz, Founder & CEO</span>
-        <span class="meta-time" id="timeLabel">0:00 / 4:00</span>
+        <span class="meta-time" id="timeLabel">0:00 / 4:03</span>
       </div>
       <div class="transcript" id="transcript"></div>
     </div>
@@ -355,7 +355,7 @@ const TRANSCRIPT = [
   { start: 213.0, end: 220.0, text: "As the world becomes more complex and interconnected, the challenges we face are evolving just as quickly." },
   { start: 220.0, end: 228.0, text: "We believe autonomous systems will become essential tools for keeping society safe, resilient, and prepared." },
   { start: 228.0, end: 237.0, text: "Our goal is very simple: build intelligent aerial systems that can observe the world at scale, detect problems earlier, and help people respond faster." },
-  { start: 237.0, end: 241.0, text: "That\u2019s the mission behind USAvionix \u2014 and we\u2019re just getting started." }
+  { start: 237.0, end: 244.0, text: "That\u2019s the mission behind USAvionix \u2014 and we\u2019re just getting started." }
 ];
 
 // ─── Audio + Web Audio API ───
@@ -454,7 +454,7 @@ function scrub(e) {
   initAudio();
   const rect = e.currentTarget.getBoundingClientRect();
   const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-  audio.currentTime = pct * (audio.duration || 251);
+  audio.currentTime = pct * (audio.duration || 243.48);
   if (!isPlaying) document.getElementById('playBtn').click();
 }
 document.getElementById('fftContainer').addEventListener('click', scrub);
